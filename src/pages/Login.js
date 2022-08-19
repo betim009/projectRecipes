@@ -30,14 +30,14 @@ function Login() {
     <div>
       <input
         type="email"
-        placeholder="insert your email"
+        placeholder="type your email"
         data-testid="email-input"
         onChange={ ({ target }) => { setEmail(target.value); validate(); } }
         value={ email }
       />
       <input
         type="password"
-        placeholder="insert your password"
+        placeholder="type your password"
         data-testid="password-input"
         onChange={ ({ target }) => { setPassword(target.value); validate(); } }
         value={ password }
