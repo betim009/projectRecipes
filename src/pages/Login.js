@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 
 function Login() {
@@ -15,6 +16,14 @@ function Login() {
       return setDisabled(false);
     }
     return setDisabled(true);
+  };
+
+  const history = useHistory();
+  const saveStorage = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('mealsToken', '1');
+    localStorage.setItem('cocktailsToken', '1');
+    history.push('/foods');
   };
 
   return (
@@ -37,6 +46,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ disabled }
+        onClick={ saveStorage }
       >
         Enter
 
