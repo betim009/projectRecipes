@@ -5,11 +5,17 @@ import AppContext from './AppContext';
 function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  const [recipeId, setRecipeId] = useState('');
   const contextValue = {
     email,
     password,
     setEmail,
     setPassword,
+    recipes,
+    setRecipes,
+    recipeId,
+    setRecipeId,
   };
 
   return (
