@@ -1,40 +1,49 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { foodFindIngredient, foodFindName, foodFindLetter } from '../services/ApiFood';
 import { drinksFindIngredient,
   drinksFindName, drinksFindLetter } from '../services/ApiDrinks';
+import AppContext from '../AppContext/AppContext';
 
 export default function SearchBar({ title }) {
   const [typeSearchRadio, setTypeSearchRadio] = useState();
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState('');
+  const { setRecipes, recipes } = useContext(AppContext);
 
-  const handleFoods = () => {
+  const handleFoods = async () => {
     if (typeSearchRadio === 'ingredient') {
-      foodFindIngredient(searchValue);
+      const data = await foodFindIngredient(searchValue);
+      setRecipes(data.meals);
+      console.log(recipes, data);
     }
     if (typeSearchRadio === 'name') {
-      foodFindName(searchValue);
+      const data = await foodFindName(searchValue);
+      setRecipes(data.meals);
     }
     if (typeSearchRadio === 'firstLetter') {
       if (searchValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      foodFindLetter(searchValue);
+      const data = await foodFindLetter(searchValue);
+      setRecipes(data.meals);
     }
   };
 
-  const handleDrinks = () => {
+  const handleDrinks = async () => {
     if (typeSearchRadio === 'ingredient') {
-      drinksFindIngredient(searchValue);
+      const data = await drinksFindIngredient(searchValue);
+      setRecipes(data.drinks);
     }
     if (typeSearchRadio === 'name') {
-      drinksFindName(searchValue);
+      const data = await drinksFindName(searchValue);
+      setRecipes(data.drinks);
     }
     if (typeSearchRadio === 'firstLetter') {
       if (searchValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      drinksFindLetter(searchValue);
+      const data = await drinksFindLetter(searchValue);
+      setRecipes(data.drinks);
     }
   };
 
@@ -58,7 +67,7 @@ export default function SearchBar({ title }) {
         <input
           onChange={ () => setTypeSearchRadio('ingredient') }
           type="radio"
-          name="ingredient"
+          name="choice"
           data-testid="ingredient-search-radio"
         />
       </label>
@@ -67,7 +76,7 @@ export default function SearchBar({ title }) {
         <input
           onChange={ () => setTypeSearchRadio('name') }
           type="radio"
-          name="name"
+          name="choice"
           data-testid="name-search-radio"
         />
       </label>
@@ -76,7 +85,7 @@ export default function SearchBar({ title }) {
         <input
           onChange={ () => setTypeSearchRadio('firstLetter') }
           type="radio"
-          name="firstLetter"
+          name="choice"
           data-testid="first-letter-search-radio"
         />
       </label>

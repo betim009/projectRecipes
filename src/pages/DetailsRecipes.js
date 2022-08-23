@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
-import AppContext from '../AppContext/AppContext';
+import React from 'react';
 
 export default function DetailsRecipes() {
-  const { recipeId } = useContext(AppContext);
   return (
     <div>
-      {recipeId}
+      DETAILS
     </div>
   );
 }
