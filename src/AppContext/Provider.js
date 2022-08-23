@@ -6,7 +6,8 @@ function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [recipes, setRecipes] = useState([]);
-  const [recipeId, setRecipeId] = useState('');
+  const [search, setSearch] = useState(false);
+
   const contextValue = {
     email,
     password,
@@ -14,8 +15,8 @@ function Provider({ children }) {
     setPassword,
     recipes,
     setRecipes,
-    recipeId,
-    setRecipeId,
+    search,
+    setSearch,
   };
 
   return (

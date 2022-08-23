@@ -8,23 +8,36 @@ import AppContext from '../AppContext/AppContext';
 export default function SearchBar({ title }) {
   const [typeSearchRadio, setTypeSearchRadio] = useState();
   const [searchValue, setSearchValue] = useState('');
-  const { setRecipes, recipes } = useContext(AppContext);
+  const { setRecipes } = useContext(AppContext);
+  const message = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const handleFoods = async () => {
     if (typeSearchRadio === 'ingredient') {
       const data = await foodFindIngredient(searchValue);
+      if (data.meals === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.meals);
-      console.log(recipes, data);
     }
     if (typeSearchRadio === 'name') {
       const data = await foodFindName(searchValue);
+      if (data.meals === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.meals);
     }
     if (typeSearchRadio === 'firstLetter') {
       if (searchValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
+        return;
       }
       const data = await foodFindLetter(searchValue);
+      if (data.meals === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.meals);
     }
   };
@@ -32,10 +45,18 @@ export default function SearchBar({ title }) {
   const handleDrinks = async () => {
     if (typeSearchRadio === 'ingredient') {
       const data = await drinksFindIngredient(searchValue);
+      if (data.drinks === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.drinks);
     }
     if (typeSearchRadio === 'name') {
       const data = await drinksFindName(searchValue);
+      if (data.drinks === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.drinks);
     }
     if (typeSearchRadio === 'firstLetter') {
@@ -43,6 +64,10 @@ export default function SearchBar({ title }) {
         global.alert('Your search must have only 1 (one) character');
       }
       const data = await drinksFindLetter(searchValue);
+      if (data.drinks === null) {
+        global.alert(message);
+        return;
+      }
       setRecipes(data.drinks);
     }
   };

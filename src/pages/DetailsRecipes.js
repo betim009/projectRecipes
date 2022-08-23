@@ -3,7 +3,7 @@ import React from 'react';
 export default function DetailsRecipes() {
   return (
     <div>
-      DETAILS
+      <h1>DETAILS</h1>
     </div>
   );
 }
