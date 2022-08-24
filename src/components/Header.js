@@ -20,8 +20,8 @@ function Header({ title, search }) {
           onClick={ () => history.push('/profile') }
         >
           <img
-            data-testid="profile-top-btn"
             src={ profileIcon }
+            data-testid="profile-top-btn"
             alt="profile icon"
           />
         </button>
