@@ -34,9 +34,9 @@ describe('O componente Header', () => {
 
     const profileImage = screen.getByTestId(profileIcon);
     const searchImage = screen.getByTestId(searchIcon);
-    const header = screen.getByRole('heading');
+    const headerElement = screen.getByRole('heading');
 
-    expect(header).toBeDefined();
+    expect(headerElement).toBeDefined();
     expect(profileImage).toBeDefined();
     expect(searchImage).toBeDefined();
 
