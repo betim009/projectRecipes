@@ -17,10 +17,13 @@ function Header({ title, search }) {
       <div>
         <button
           type="button"
-          data-testid="profile-top-btn"
           onClick={ () => history.push('/profile') }
         >
-          <img src={ profileIcon } alt="profile icon" />
+          <img
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            alt="profile icon"
+          />
         </button>
       </div>
       { search
@@ -28,10 +31,10 @@ function Header({ title, search }) {
   <div>
     <button
       type="button"
-      data-testid="search-top-btn"
       onClick={ () => setSearchBar((prev) => !prev) }
     >
       <img
+        data-testid="search-top-btn"
         src={ searchIcon }
         alt="search icon"
       />
