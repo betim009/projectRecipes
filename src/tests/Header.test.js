@@ -35,7 +35,6 @@ describe('O componente Header', () => {
     const profileImage = screen.getByTestId(profileIcon);
     const searchImage = screen.getByTestId(searchIcon);
     const header = screen.getByRole('heading');
-    // const searchBar = screen.getByTestId('search-input');
 
     expect(header).toBeDefined();
     expect(profileImage).toBeDefined();
