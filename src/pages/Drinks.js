@@ -1,24 +1,18 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import Header from '../components/Header';
 import AppContext from '../AppContext/AppContext';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function Drinks() {
-  const { recipes, setId } = useContext(AppContext);
+  const { recipes } = useContext(AppContext);
   const max = 12;
-
-  const handleSingleRecipe = () => {
-    setId(recipes[0].idDrink);
-    (<Redirect to={ `/drinks/${recipes[0].idDrink}` } />);
-  };
 
   return (
     <div>
       <Header title="Drinks" search />
       {
-        recipes.length === 1 && handleSingleRecipe()
-
+        recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
       }
       {
         recipes.length > 1 && recipes.slice(0, max).map((item, i) => (

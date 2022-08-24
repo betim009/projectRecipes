@@ -9,6 +9,8 @@ function Provider({ children }) {
   const [search, setSearch] = useState(false);
   const [id, setId] = useState('');
   const [data, setData] = useState({});
+  const [ingredientList, setIngedientList] = useState([]);
+  const [measureList, setMeasureList] = useState([]);
 
   const contextValue = {
     email,
@@ -23,6 +25,10 @@ function Provider({ children }) {
     setId,
     data,
     setData,
+    ingredientList,
+    setIngedientList,
+    measureList,
+    setMeasureList,
   };
 
   return (

@@ -1,13 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
+import RecCard from '../components/RecCard';
 
 export default function DetailsRecipesFoods() {
-  const { id, setId, data, setData } = useContext(AppContext);
+  const { setId, data, setData, ingredientList, setIngedientList,
+    measureList, setMeasureList } = useContext(AppContext);
+  const [videoURL, setVideoURL] = useState('');
 
   const foodIdAPI = async (foodID) => {
     const request = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${foodID}`);
     const response = await request.json();
     setData(...response.meals);
+    const info = response.meals[0];
+
+    const url = info.strYoutube.split('=');
+    setVideoURL(url[1]);
+
+    const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
+    const ingListFilter = ingredient.map((e) => e.slice(1))
+      .filter((it) => it[0] !== '' && it[0] !== null);
+    setIngedientList(ingListFilter);
+
+    const measure = Object.entries(info).filter((e) => e[0].includes('strMeasure'));
+    const meListFilter = measure.map((e) => e.slice(1))
+      .filter((it) => it[0] !== '' && it[0] !== null);
+    setMeasureList(meListFilter);
   };
 
   useEffect(() => {
@@ -25,9 +42,48 @@ export default function DetailsRecipesFoods() {
         data-testid="recipe-photo"
       />
       <h1 data-testid="recipe-title">{ data.strMeal }</h1>
-      <h3 data-testid="recipe-category">{ data.strCategory }</h3>
-      <p>Ingredientes</p>
+      <h3 data-testid="recipe-category">
+        Categoria:
+        {''}
+        { data.strCategory }
+      </h3>
+      <div>
+        <h3>
+          Ingredientes
+        </h3>
+        <ol>
+          {ingredientList.map((item, index) => (
+            <li key={ item } data-testid={ `${index}-ingredient-name-and-measure` }>
+              {item}
+              {' '}
+              -
+              {' '}
+              {measureList[index]}
+            </li>
+          ))}
+        </ol>
+      </div>
       <p data-testid="instructions">{ data.strInstructions }</p>
+      <iframe
+        data-testid="video"
+        width="560"
+        height="315"
+        src={ `https://www.youtube.com/embed/${videoURL}` }
+        title="YouTube video player"
+        frameBorder="0"
+        allowFullScreen
+      />
+      <div>
+        <h3>
+          Recomendações
+        </h3>
+        <RecCard index="0" type="drinks" />
+        <RecCard index="1" type="drinks" />
+        <RecCard index="2" type="drinks" />
+        <RecCard index="3" type="drinks" />
+        <RecCard index="4" type="drinks" />
+        <RecCard index="5" type="drinks" />
+      </div>
     </div>
   );
 }
