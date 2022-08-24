@@ -5,11 +5,18 @@ import AppContext from './AppContext';
 function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  const [search, setSearch] = useState(false);
+
   const contextValue = {
     email,
     password,
     setEmail,
     setPassword,
+    recipes,
+    setRecipes,
+    search,
+    setSearch,
   };
 
   return (
