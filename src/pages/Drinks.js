@@ -5,14 +5,19 @@ import AppContext from '../AppContext/AppContext';
 import Footer from '../components/Footer';
 
 export default function Drinks() {
-  const { recipes } = useContext(AppContext);
+  const { recipes, setId } = useContext(AppContext);
   const max = 12;
+
+  const handleSingleRecipe = () => {
+    setId(recipes[0].idDrink);
+    (<Redirect to={ `/drinks/${recipes[0].idDrink}` } />);
+  };
 
   return (
     <div>
       <Header title="Drinks" search />
       {
-        recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
+        recipes.length === 1 && handleSingleRecipe()
 
       }
       {
