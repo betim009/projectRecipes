@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import AppContext from '../AppContext/AppContext';
+import Footer from '../components/Footer';
 
 export default function Drinks() {
   const { recipes } = useContext(AppContext);
@@ -26,6 +27,7 @@ export default function Drinks() {
           </div>
         ))
       }
+      <Footer />
     </div>
   );
 }
