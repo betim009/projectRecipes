@@ -1,31 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import Header from '../components/Header';
 import AppContext from '../AppContext/AppContext';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Recipes from '../components/Recipes';
+import { drinksFindName } from '../services/ApiDrinks';
 
 export default function Drinks() {
   const { recipes } = useContext(AppContext);
-  const max = 12;
+  const [recipesDrinks, setRecipesDrinks] = useState([]);
+
+  const defaultResults = async () => {
+    const data = await drinksFindName('');
+    setRecipesDrinks(data);
+  };
+
+  useEffect(() => {
+    defaultResults();
+  }, []);
 
   return (
     <div>
       <Header title="Drinks" search />
       {
         recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
-
       }
       {
-        recipes.length > 1 && recipes.slice(0, max).map((item, i) => (
-          <div key={ item.strDrink } data-testid={ `${i}-recipe-card` }>
-            <img
-              src={ item.strDrinkThumb }
-              alt={ item.strDrink }
-              data-testid={ `${i}-card-img` }
-            />
-            <h3 data-testid={ `${i}-card-name` }>{item.strDrink}</h3>
-          </div>
-        ))
+        recipes.length > 1 && <Recipes />
       }
       <Footer />
     </div>
