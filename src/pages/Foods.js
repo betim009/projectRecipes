@@ -1,6 +1,6 @@
-import Footer from '../components/Footer';
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import Footer from '../components/Footer';
 import AppContext from '../AppContext/AppContext';
 import Header from '../components/Header';
 
@@ -26,9 +26,7 @@ export default function Foods() {
           </div>
         ))
       }
-       <Footer />
+      <Footer />
     </div>
   );
 }
-
-export default Foods;
