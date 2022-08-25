@@ -15,8 +15,8 @@ function RecCard({ index, type }) {
   async function recDrinksAPI() {
     const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const response = await request.json();
-    const info = response.drinks;
-    setRecomendationDrink(info[index]);
+    const info2 = response.drinks;
+    setRecomendationDrink(info2[index]);
   }
 
   useEffect(() => {
@@ -25,8 +25,8 @@ function RecCard({ index, type }) {
   }, []);
 
   return (
-    <div>
-      {(type === 'drink')
+    <div className="col-sm-6">
+      {type === 'drink'
         ? (
           <div
             data-testid={ `${index}-recomendation-card` }
@@ -49,7 +49,7 @@ function RecCard({ index, type }) {
               alt={ recomendationDrink.strDrink }
             />
             <p>{recomendationDrink.strCategory}</p>
-            <h5 data-testid={ `${index}-recomendation-card` }>
+            <h5 data-testid={ `${index}-recomendation-title` }>
               {recomendationDrink.strDrink}
             </h5>
           </div>

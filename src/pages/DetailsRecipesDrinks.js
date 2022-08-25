@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../AppContext/AppContext';
-import RecCard from '../components/RecCard';
+import CarouselFoods from '../components/CarouselFoods';
 
 export default function DetailsRecipesDrinks() {
   const { setId, data, setData, ingredientList, setIngedientList,
@@ -68,12 +68,7 @@ export default function DetailsRecipesDrinks() {
         <h3>
           Recomendações
         </h3>
-        <RecCard index="0" type="foods" />
-        <RecCard index="1" type="foods" />
-        <RecCard index="2" type="foods" />
-        <RecCard index="3" type="foods" />
-        <RecCard index="4" type="foods" />
-        <RecCard index="5" type="foods" />
+        <CarouselFoods />
       </div>
     </div>
   );

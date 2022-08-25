@@ -1,6 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
-import RecCard from '../components/RecCard';
+import CarouselDrinks from '../components/CarouselDrinks';
 
 export default function DetailsRecipesFoods() {
   const { setId, data, setData, ingredientList, setIngedientList,
@@ -77,12 +79,7 @@ export default function DetailsRecipesFoods() {
         <h3>
           Recomendações
         </h3>
-        <RecCard index="0" type="drinks" />
-        <RecCard index="1" type="drinks" />
-        <RecCard index="2" type="drinks" />
-        <RecCard index="3" type="drinks" />
-        <RecCard index="4" type="drinks" />
-        <RecCard index="5" type="drinks" />
+        <CarouselDrinks />
       </div>
     </div>
   );
