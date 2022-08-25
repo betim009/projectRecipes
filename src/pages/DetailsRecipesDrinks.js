@@ -3,8 +3,10 @@ import AppContext from '../AppContext/AppContext';
 import CarouselFoods from '../components/CarouselFoods';
 
 export default function DetailsRecipesDrinks() {
-  const { setId, data, setData, ingredientList, setIngedientList,
-    measureList, setMeasureList } = useContext(AppContext);
+  const { id, setId, data, setData, ingredientList, setIngedientList,
+    measureList, setMeasureList, recipeBtn, inProgressRecipes,
+    setInProgressRecipes, favoriteRecipes, setFavoriteRecipe,
+    doneRecipes, setDoneRecipes } = useContext(AppContext);
 
   const drinksIdAPI = async (drinkId) => {
     const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`);
@@ -28,6 +30,31 @@ export default function DetailsRecipesDrinks() {
     const strings = pathname.split('/');
     setId(strings[2]);
     drinksIdAPI(strings[2]);
+  }, []);
+
+  useEffect(() => {
+    const dnRecipes = localStorage.getItem('doneRecipes');
+    if (dnRecipes === null) {
+      return localStorage.setItem('doneRecipes', '[]');
+    }
+    return setDoneRecipes(dnRecipes);
+  }, []);
+
+  useEffect(() => {
+    const progRecipes = localStorage.getItem('inProgressRecipes');
+    if (progRecipes === null) {
+      return localStorage.setItem('inProgressRecipes', '{}');
+    }
+    const obj = json.parse(progRecipes);
+    return setInProgressRecipes([...obj]);
+  }, []);
+
+  useEffect(() => {
+    const favRecipes = localStorage.getItem('favoriteRecipes');
+    if (favRecipes === null) {
+      return localStorage.setItem('favoriteRecipes', '[]');
+    }
+    return setFavoriteRecipe(favRecipes);
   }, []);
 
   return (
@@ -70,6 +97,16 @@ export default function DetailsRecipesDrinks() {
         </h3>
         <CarouselFoods />
       </div>
+      {
+        recipeBtn
+        && (
+          <button type="button" data-testid="start-recipe-btn">
+            {
+              inProgressRecipes.some((e) => Object.keys(e.cocktails))
+            }
+          </button>
+        )
+      }
     </div>
   );
 }

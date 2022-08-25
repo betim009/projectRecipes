@@ -11,6 +11,10 @@ function Provider({ children }) {
   const [data, setData] = useState({});
   const [ingredientList, setIngedientList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
+  const [recipeBtn, setRecipeBtn] = useState(true);
+  const [inProgressRecipes, setInProgressRecipes] = useState([]);
+  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   const contextValue = {
     email,
@@ -29,6 +33,14 @@ function Provider({ children }) {
     setIngedientList,
     measureList,
     setMeasureList,
+    recipeBtn,
+    setRecipeBtn,
+    inProgressRecipes,
+    setInProgressRecipes,
+    doneRecipes,
+    setDoneRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
   };
 
   return (

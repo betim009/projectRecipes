@@ -6,7 +6,7 @@ import CarouselDrinks from '../components/CarouselDrinks';
 
 export default function DetailsRecipesFoods() {
   const { setId, data, setData, ingredientList, setIngedientList,
-    measureList, setMeasureList } = useContext(AppContext);
+    measureList, setMeasureList, recipeBtn } = useContext(AppContext);
   const [videoURL, setVideoURL] = useState('');
 
   const foodIdAPI = async (foodID) => {
@@ -34,6 +34,13 @@ export default function DetailsRecipesFoods() {
     const strings = pathname.split('/');
     setId(strings[2]);
     foodIdAPI(strings[2]);
+  }, []);
+
+  useEffect(() => {
+    const doneRecipes = localStorage.getItem('doneRecipes');
+    if (doneRecipes === null) {
+      return localStorage.setItem('doneRecipes', '[]');
+    }
   }, []);
 
   return (
@@ -81,6 +88,10 @@ export default function DetailsRecipesFoods() {
         </h3>
         <CarouselDrinks />
       </div>
+      {
+        recipeBtn
+        && <button type="button" data-testid="start-recipe-btn">Start Recipe</button>
+      }
     </div>
   );
 }
