@@ -15,7 +15,7 @@ function Provider({ children }) {
   const [inProgressRecipes, setInProgressRecipes] = useState({});
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-
+  //
   const contextValue = {
     email,
     password,
