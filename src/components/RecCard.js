@@ -24,9 +24,10 @@ function RecCard({ index, type }) {
     recFoodsAPI();
   }, []);
 
+  console.log(type);
   return (
     <div className="col-sm-6">
-      {type === 'drink'
+      {type === 'foods'
         ? (
           <div
             data-testid={ `${index}-recomendation-card` }
