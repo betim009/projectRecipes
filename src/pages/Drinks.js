@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 
 export default function Drinks() {
   const { recipes } = useContext(AppContext);
@@ -12,18 +13,23 @@ export default function Drinks() {
     <div>
       <Header title="Drinks" search />
       {
+        recipes.length === 0 && <Recipes typePage="drinks" />
+      }
+      {
         recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
       }
       {
-        recipes.length > 1 && recipes.slice(0, max).map((item, i) => (
-          <div key={ item.strDrink } data-testid={ `${i}-recipe-card` }>
-            <img
-              src={ item.strDrinkThumb }
-              alt={ item.strDrink }
-              data-testid={ `${i}-card-img` }
-            />
-            <h3 data-testid={ `${i}-card-name` }>{item.strDrink}</h3>
-          </div>
+        recipes.length > 1 && recipes.slice(0, max).map((item, index) => (
+          <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
+            <div data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ item.strDrinkThumb }
+                alt={ item.strDrink }
+                data-testid={ `${index}-card-img` }
+              />
+              <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
+            </div>
+          </Link>
         ))
       }
       <Footer />
