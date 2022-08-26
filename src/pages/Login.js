@@ -1,8 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../style/signin.css';
 
 function Login() {
@@ -50,7 +50,7 @@ function Login() {
           value={ password }
         />
         <button
-          className="btn btn-success btn-block bt mt-1"
+          className="btn btn-primary btn-block bt mt-1"
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }
