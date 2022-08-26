@@ -7,7 +7,7 @@ import CarouselDrinks from '../components/CarouselDrinks';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import './DetailsRecipes.css';
+import '../style/DetailsRecipes.css';
 
 const copy = require('clipboard-copy');
 
