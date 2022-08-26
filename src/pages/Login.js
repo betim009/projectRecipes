@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/signin.css';
 
 function Login() {
   const [disabled, setDisabled] = useState(true);
@@ -27,30 +30,36 @@ function Login() {
   };
 
   return (
-    <div>
-      <input
-        type="email"
-        placeholder="type your email"
-        data-testid="email-input"
-        onChange={ ({ target }) => { setEmail(target.value); validate(); } }
-        value={ email }
-      />
-      <input
-        type="password"
-        placeholder="type your password"
-        data-testid="password-input"
-        onChange={ ({ target }) => { setPassword(target.value); validate(); } }
-        value={ password }
-      />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ disabled }
-        onClick={ saveStorage }
-      >
-        Enter
+    <div className="text-center div-center">
+      <form className="form-signin">
+        <div className="form-floating">
+          <h1 className="h4 mb-2">Please sign in</h1>
+          <input
+            type="email"
+            placeholder="type your email"
+            data-testid="email-input"
+            onChange={ ({ target }) => { setEmail(target.value); validate(); } }
+            value={ email }
+          />
+        </div>
+        <input
+          type="password"
+          placeholder="type your password"
+          data-testid="password-input"
+          onChange={ ({ target }) => { setPassword(target.value); validate(); } }
+          value={ password }
+        />
+        <button
+          className="btn btn-success btn-block bt mt-1"
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ disabled }
+          onClick={ saveStorage }
+        >
+          Enter
 
-      </button>
+        </button>
+      </form>
     </div>
   );
 }

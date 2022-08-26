@@ -1,0 +1,36 @@
+/* html, body {
+  height: 100%;
+} */
+
+/* body {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  text-align: center;
+} */
+
+.div-center {
+  padding-bottom: 10%;
+  padding-top: 15%;
+  text-align: center;
+}
+
+.bt {
+  margin: auto;
+  max-width: 220px;
+  width: 100%;
+}
+
+.form-signin {
+  margin: auto;
+  max-width: 330px;
+  padding: 15px;
+  width: 100%;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
