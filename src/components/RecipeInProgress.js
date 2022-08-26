@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from './ShareButton';
 
 export default function RecipeInProgress() {
-  const { id, ingredientList, setIngedientList,
+  const { ingredientList, setIngedientList,
     measureList, setMeasureList } = useContext(AppContext);
   const { pathname } = window.location;
-  const [infoFoods, setInfoFoods] = useState([]);
+  const { id } = useParams();
+  // const [infoFoods, setInfoFoods] = useState([]);
   const [infoDrinks, setInfoDrinks] = useState([]);
 
   const fetchFood = async () => {
@@ -51,7 +53,6 @@ export default function RecipeInProgress() {
     }
   }, [id]);
 
-  console.log(infoDrinks, infoFoods);
   return (
     <div>
       <h1 data-testid="recipe-title">{infoDrinks.strDrink}</h1>
