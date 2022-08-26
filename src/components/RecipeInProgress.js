@@ -9,7 +9,7 @@ export default function RecipeInProgress() {
     measureList, setMeasureList } = useContext(AppContext);
   const { pathname } = window.location;
   const { id } = useParams();
-  // const [infoFoods, setInfoFoods] = useState([]);
+  const [infoFoods, setInfoFoods] = useState([]);
   const [infoDrinks, setInfoDrinks] = useState([]);
 
   const fetchFood = async () => {
@@ -32,6 +32,7 @@ export default function RecipeInProgress() {
   const fetchDrinks = async () => {
     const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
     const response = await request.json();
+    const info = response.drinks[0];
     setInfoDrinks(response.drinks[0]);
 
     const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
@@ -55,28 +56,80 @@ export default function RecipeInProgress() {
 
   return (
     <div>
-      <h1 data-testid="recipe-title">{infoDrinks.strDrink}</h1>
-      <img src={ infoDrinks.strDrinkThumb } alt="foto-Drink" data-testid="recipe-photo" />
-      <p data-testid="recipe-category">{infoDrinks.strCategory}</p>
-      <FavoriteButton />
-      <ShareButton pathname={ pathname } />
-      <div>
-        <h3>
-          Ingredientes
-        </h3>
-        <ol>
-          {ingredientList.map((item, index) => (
-            <label key={ item } htmlFor="checkbox">
-              <input name="checkbox" type="checkbox" />
-              <li data-testid={ `${index}-ingredient-step` }>
-                {`${item} - ${measureList[index]}`}
-              </li>
-            </label>
-          ))}
-        </ol>
-      </div>
-      <p data-testid="instructions">{infoDrinks.strInstructions}</p>
-      <button type="button" data-testid="finish-recipe-btn">Finalizar Receita</button>
+      {
+        pathname.includes('drinks') && (
+          <div>
+            <h1 data-testid="recipe-title">{infoDrinks.strDrink}</h1>
+            <img
+              src={ infoDrinks.strDrinkThumb }
+              alt="foto-Drink"
+              data-testid="recipe-photo"
+            />
+            <p data-testid="recipe-category">{infoDrinks.strCategory}</p>
+            <FavoriteButton />
+            <ShareButton pathname={ pathname } />
+            <div>
+              <h3>
+                Ingredientes
+              </h3>
+              <ol>
+                {ingredientList.map((item, index) => (
+                  <label key={ item } htmlFor="checkbox">
+                    <input name="checkbox" type="checkbox" />
+                    <li data-testid={ `${index}-ingredient-step` }>
+                      {`${item} - ${measureList[index]}`}
+                    </li>
+                  </label>
+                ))}
+              </ol>
+            </div>
+            <p data-testid="instructions">{infoDrinks.strInstructions}</p>
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+            >
+              Finalizar Receita
+            </button>
+          </div>
+        )
+      }
+      {
+        pathname.includes('foods') && (
+          <div>
+            <h1 data-testid="recipe-title">{infoFoods.strFood}</h1>
+            <img
+              src={ infoFoods.strFoodThumb }
+              alt="foto-meals"
+              data-testid="recipe-photo"
+            />
+            <p data-testid="recipe-category">{infoFoods.strCategory}</p>
+            <FavoriteButton />
+            <ShareButton pathname={ pathname } />
+            <div>
+              <h3>
+                Ingredientes
+              </h3>
+              <ol>
+                {ingredientList.map((item, index) => (
+                  <label key={ item } htmlFor="checkbox">
+                    <input name="checkbox" type="checkbox" />
+                    <li data-testid={ `${index}-ingredient-step` }>
+                      {`${item} - ${measureList[index]}`}
+                    </li>
+                  </label>
+                ))}
+              </ol>
+            </div>
+            <p data-testid="instructions">{infoFoods.strInstructions}</p>
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+            >
+              Finalizar Receita
+            </button>
+          </div>
+        )
+      }
     </div>
   );
 }
