@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
+import RecipeInProgress from './components/RecipeInProgress';
 import DetailsRecipesDrinks from './pages/DetailsRecipesDrinks';
 import DetailsRecipesFoods from './pages/DetailsRecipesFoods';
 import DoneRecipes from './pages/DoneRecipes';
@@ -19,8 +20,8 @@ function App() {
       <Route exact path="/drinks" component={ Drinks } />
       <Route exact path="/foods/:id" component={ DetailsRecipesFoods } />
       <Route exact path="/drinks/:id" component={ DetailsRecipesDrinks } />
-      <Route exact path="/foods/:id/in-progress" />
-      <Route exact path="/drinks/:id/in-progress" />
+      <Route exact path="/foods/:id/in-progress" component={ RecipeInProgress } />
+      <Route exact path="/drinks/:id/in-progress" component={ RecipeInProgress } />
       <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />

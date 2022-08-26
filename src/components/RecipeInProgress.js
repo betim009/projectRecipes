@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function RecipeInProgress() {
-  const [infoRecipe, setInfoRecipe] = useState([]);
-
-  useEffect(() => {
-    setInfoRecipe(localStorage.getItem('favoriteRecipes'));
-  }, []);
+export default function Profile() {
+  return (
+    <div />
+  );
 }

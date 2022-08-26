@@ -12,10 +12,10 @@ function Provider({ children }) {
   const [ingredientList, setIngedientList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [recipeBtn, setRecipeBtn] = useState(true);
-  const [inProgressRecipes, setInProgressRecipes] = useState([]);
+  const [inProgressRecipes, setInProgressRecipes] = useState({});
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-
+  //
   const contextValue = {
     email,
     password,
