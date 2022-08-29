@@ -11,6 +11,7 @@ export default function RecipeInProgress() {
   const { id } = useParams();
   const [infoFoods, setInfoFoods] = useState([]);
   const [infoDrinks, setInfoDrinks] = useState([]);
+  // const [progress, setProgress] = useState([]);
 
   const filterKeys = (info) => {
     const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
@@ -43,12 +44,53 @@ export default function RecipeInProgress() {
   };
 
   useEffect(() => {
+    const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (prevStatus === null) {
+      const status = {
+        cocktails: {},
+        meals: {},
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(status));
+    }
+  }, []);
+
+  useEffect(() => {
     if (pathname.includes('foods')) {
       fetchFood();
     } else {
       fetchDrinks();
     }
   }, [id]);
+
+  const handleCheckbox = ({ target }) => {
+    const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (pathname.includes('drinks')) {
+      const statusDrinks = {
+        ...prevStatus,
+        cocktails: {
+          ...prevStatus.cocktails,
+          [id]: prevStatus.cocktails[id] === undefined
+            ? [target.id]
+            : [...prevStatus.cocktails[id], target.id],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(statusDrinks));
+    }
+    if (pathname.includes('foods')) {
+      const statusFoods = {
+        ...prevStatus,
+        meals: {
+          ...prevStatus.meals,
+          [id]: prevStatus.meals[id] === undefined
+            ? [target.id]
+            : [...prevStatus.meals[id], target.id],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(statusFoods));
+    }
+    // setProgress((previous) => [...previous, target.checked]);
+    console.log(JSON.parse(localStorage.getItem('inProgressRecipes')));
+  };
 
   return (
     <div>
@@ -70,9 +112,18 @@ export default function RecipeInProgress() {
               </h3>
               <ol>
                 {ingredientList.map((item, index) => (
-                  <label key={ item } htmlFor="checkbox">
-                    <input name="checkbox" type="checkbox" />
-                    <li data-testid={ `${index}-ingredient-step` }>
+                  <label
+                    key={ item }
+                    htmlFor="checkbox"
+                    data-testid={ `${index}-ingredient-step` }
+                  >
+                    <input
+                      id={ `${item}` }
+                      name="checkbox"
+                      type="checkbox"
+                      onChange={ handleCheckbox }
+                    />
+                    <li>
                       {`${item} - ${measureList[index]}`}
                     </li>
                   </label>
@@ -107,9 +158,17 @@ export default function RecipeInProgress() {
               </h3>
               <ol>
                 {ingredientList.map((item, index) => (
-                  <label key={ index } htmlFor="checkbox">
-                    <input name="checkbox" type="checkbox" />
-                    <li data-testid={ `${index}-ingredient-step` }>
+                  <label
+                    key={ index }
+                    htmlFor="checkbox"
+                    data-testid={ `${index}-ingredient-step` }
+                  >
+                    <input
+                      name="checkbox"
+                      type="checkbox"
+                      onChange={ handleCheckbox }
+                    />
+                    <li>
                       {`${item} - ${measureList[index]}`}
                     </li>
                   </label>
