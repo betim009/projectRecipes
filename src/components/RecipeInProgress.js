@@ -12,12 +12,7 @@ export default function RecipeInProgress() {
   const [infoFoods, setInfoFoods] = useState([]);
   const [infoDrinks, setInfoDrinks] = useState([]);
 
-  const fetchFood = async () => {
-    const request = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-    const response = await request.json();
-    setInfoFoods(response.meals[0]);
-    const info = response.meals[0];
-
+  const filterKeys = (info) => {
     const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
     const ingListFilter = ingredient.map((e) => e.slice(1))
       .filter((it) => it[0] !== '' && it[0] !== null);
@@ -29,21 +24,22 @@ export default function RecipeInProgress() {
     setMeasureList(meListFilter);
   };
 
+  const fetchFood = async () => {
+    const request = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    const response = await request.json();
+    setInfoFoods(response.meals[0]);
+    const info = response.meals[0];
+
+    filterKeys(info);
+  };
+
   const fetchDrinks = async () => {
     const request = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
     const response = await request.json();
     const info = response.drinks[0];
     setInfoDrinks(response.drinks[0]);
 
-    const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
-    const ingListFilter = ingredient.map((e) => e.slice(1))
-      .filter((it) => it[0] !== '' && it[0] !== null);
-    setIngedientList(ingListFilter);
-
-    const measure = Object.entries(info).filter((e) => e[0].includes('strMeasure'));
-    const meListFilter = measure.map((e) => e.slice(1))
-      .filter((it) => it[0] !== '' && it[0] !== null);
-    setMeasureList(meListFilter);
+    filterKeys(info);
   };
 
   useEffect(() => {
