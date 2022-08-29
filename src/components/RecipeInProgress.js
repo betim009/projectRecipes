@@ -11,13 +11,34 @@ export default function RecipeInProgress() {
   const { id } = useParams();
   const [infoFoods, setInfoFoods] = useState([]);
   const [infoDrinks, setInfoDrinks] = useState([]);
-  // const [progress, setProgress] = useState([]);
+  const [progress, setProgress] = useState({});
+  const verification = (parameterList) => {
+    const ingArrayList = parameterList.map((item) => item[0]);
+    const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (pathname.includes('drinks')) {
+      const cocktailsList = prevStatus.cocktails[id];
+      const list = ingArrayList.reduce((acc, item) => {
+        const value = cocktailsList.some((e) => e === item);
+        return { ...acc, [item]: value };
+      }, {});
+      setProgress(list);
+    }
+    if (pathname.includes('foods')) {
+      const mealsList = prevStatus.meals[id];
+      const list = ingArrayList.reduce((acc, item) => {
+        const value = mealsList.some((e) => e === item);
+        return { ...acc, [item]: value };
+      }, {});
+      setProgress(list);
+    }
+  };
 
   const filterKeys = (info) => {
     const ingredient = Object.entries(info).filter((e) => e[0].includes('strIngredient'));
     const ingListFilter = ingredient.map((e) => e.slice(1))
       .filter((it) => it[0] !== '' && it[0] !== null);
     setIngedientList(ingListFilter);
+    verification(ingListFilter);
 
     const measure = Object.entries(info).filter((e) => e[0].includes('strMeasure'));
     const meListFilter = measure.map((e) => e.slice(1))
@@ -50,7 +71,7 @@ export default function RecipeInProgress() {
         cocktails: {},
         meals: {},
       };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(status));
+      return localStorage.setItem('inProgressRecipes', JSON.stringify(status));
     }
   }, []);
 
@@ -60,9 +81,36 @@ export default function RecipeInProgress() {
     } else {
       fetchDrinks();
     }
-  }, [id]);
+  }, []);
 
-  const handleCheckbox = ({ target }) => {
+  const handleRemoveItem = (target) => {
+    const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+    if (pathname.includes('drinks')) {
+      const listDrinks = prevStatus.cocktails[id].filter((item) => item !== target.id);
+      const statusDrinks = {
+        ...prevStatus,
+        cocktails: {
+          ...prevStatus.cocktails,
+          [id]: listDrinks,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(statusDrinks));
+    }
+    if (pathname.includes('foods')) {
+      const listFoods = prevStatus.meals[id].filter((item) => item !== target.id);
+      const statusFoods = {
+        ...prevStatus,
+        meals: {
+          ...prevStatus.meals,
+          [id]: listFoods,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(statusFoods));
+    }
+  };
+
+  const handleCheckbox = (target) => {
     const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (pathname.includes('drinks')) {
       const statusDrinks = {
@@ -88,8 +136,16 @@ export default function RecipeInProgress() {
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(statusFoods));
     }
-    // setProgress((previous) => [...previous, target.checked]);
-    console.log(JSON.parse(localStorage.getItem('inProgressRecipes')));
+  };
+
+  const handleChecked = ({ target }) => {
+    setProgress({ ...progress, [target.id]: !progress[target.id] });
+    if (target.checked) {
+      handleCheckbox(target);
+    }
+    if (!target.checked) {
+      handleRemoveItem(target);
+    }
   };
 
   return (
@@ -121,7 +177,8 @@ export default function RecipeInProgress() {
                       id={ `${item}` }
                       name="checkbox"
                       type="checkbox"
-                      onChange={ handleCheckbox }
+                      checked={ progress[item] }
+                      onChange={ handleChecked }
                     />
                     <li>
                       {`${item} - ${measureList[index]}`}
@@ -164,8 +221,10 @@ export default function RecipeInProgress() {
                     data-testid={ `${index}-ingredient-step` }
                   >
                     <input
+                      id={ `${item}` }
                       name="checkbox"
                       type="checkbox"
+                      checked={ progress[item] }
                       onChange={ handleCheckbox }
                     />
                     <li>
