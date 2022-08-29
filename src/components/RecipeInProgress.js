@@ -111,7 +111,7 @@ export default function RecipeInProgress() {
               </h3>
               <ol>
                 {ingredientList.map((item, index) => (
-                  <label key={ item } htmlFor="checkbox">
+                  <label key={ index } htmlFor="checkbox">
                     <input name="checkbox" type="checkbox" />
                     <li data-testid={ `${index}-ingredient-step` }>
                       {`${item} - ${measureList[index]}`}
