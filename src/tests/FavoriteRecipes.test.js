@@ -1,20 +1,17 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
+import App from '../App';
 import Provider from '../AppContext/Provider';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
 
-const mockStorage = {
-  alcoholicOrNot: '',
-  category: 'Side',
-  id: '52977',
-  image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-  name: 'Corba',
-  nationality: 'Turkish',
-  type: 'food',
-};
+require('clipboard-copy');
 
-const string = `{
+jest.mock('clipboard-copy', () => jest.fn().mockImplementation(() => {
+}));
+
+const mockStorage = [{
   alcoholicOrNot: '',
   category: 'Side',
   id: '52977',
@@ -22,36 +19,129 @@ const string = `{
   name: 'Corba',
   nationality: 'Turkish',
   type: 'food',
-}`;
+}, {
+  alcoholicOrNot: 'Alcoholic',
+  category: 'Shake',
+  id: '15511',
+  image: 'https://www.thecocktaildb.com/images/media/drink/wywrtw1472720227.jpg',
+  name: 'Baby Eskimo',
+  nationality: '',
+  type: 'drink',
+},
+];
 
 describe('A página Favorite Recipes', () => {
+  beforeEach(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(mockStorage));
+  });
+  afterEach(() => {
+    localStorage.clear();
+  });
   it('é renderizada com os cards favoritados', () => {
-    localStorage.setItem('favoriteRecipes', string);
     renderWithRouterAndContext(
       <FavoriteRecipes />, Provider,
     );
 
-    const img = screen.getByTestId('0-horizontal-image');
-    const text = screen.getByTestId('0-horizontal-top-text');
-    const name = screen.getByTestId('0-horizontal-name');
+    const imgFood = screen.getByTestId('0-horizontal-image');
+    const textFood = screen.getByTestId('0-horizontal-top-text');
+    const nameFood = screen.getByTestId('0-horizontal-name');
     const shareBtn = screen.getByTestId('0-horizontal-share-btn');
     const heartBtn = screen.getByTestId('0-horizontal-favorite-btn');
 
-    expect(img).toHaveAttribute('src', mockStorage.image);
-    expect(text)
-      .toHaveTextContent(`${mockStorage.nationality} - ${mockStorage.category}`);
-    expect(name).toHaveTextContent(mockStorage.name);
+    expect(imgFood).toHaveAttribute('src', mockStorage[0].image);
+    expect(textFood)
+      .toHaveTextContent(`${mockStorage[0].nationality} - ${mockStorage[0].category}`);
+    expect(nameFood).toHaveTextContent(mockStorage[0].name);
     expect(shareBtn).toHaveAttribute('alt', 'A button that share the recipe');
     expect(heartBtn).toHaveAttribute('alt', 'A button that favorite the recipe');
+
+    const textDrink = screen.getByTestId('1-horizontal-top-text');
+    expect(textDrink)
+      .toHaveTextContent(mockStorage[1].alcoholicOrNot);
   });
-//   it('estará presente na página Drinks', () => {
-//     renderWithRouterAndContext(
-//       <FavoriteRecipes />, Provider,
-//     );
-//   });
-//   it('estará presente na página Profile', () => {
-//     renderWithRouterAndContext(
-//       <FavoriteRecipes />, Provider,
-//     );
-//   });
+  it('ao clicar no botão favorito o item deve desaparecer da tela', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
+    const heartBtn = screen.getByTestId('0-horizontal-favorite-btn');
+    const foodName = screen.getByText(/Corba/i);
+
+    const list = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(list.length).toBe(2);
+
+    userEvent.click(heartBtn);
+
+    expect(foodName).not.toBeInTheDocument();
+    const list2 = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(list2.length).toBe(1);
+  });
+  it('filtra a lista de favoritos por tipo', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
+    const btnAll = screen.getByTestId('filter-by-all-btn');
+    const btnFood = screen.getByTestId('filter-by-food-btn');
+    const btnDrink = screen.getByTestId('filter-by-drink-btn');
+
+    const nameFood = screen.getByText(/Corba/i);
+    const nameDrink = screen.getByText(/Baby Eskimo/i);
+    expect(nameFood).toBeInTheDocument();
+    expect(nameDrink).toBeInTheDocument();
+
+    userEvent.click(btnFood);
+
+    expect(nameFood).toBeInTheDocument();
+    expect(nameDrink).not.toBeInTheDocument();
+
+    userEvent.click(btnDrink);
+
+    expect(nameFood).not.toBeInTheDocument();
+
+    userEvent.click(btnAll);
+
+    expect(nameFood).toBeDefined();
+    expect(nameDrink).toBeDefined();
+  });
+  it('ao clicar no botao de compartilhar aparece uma mensagem', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
+    const shareBtn = screen.getByTestId('0-horizontal-share-btn');
+
+    userEvent.click(shareBtn);
+
+    const test = screen.getAllByText('Link copied!');
+
+    expect(test).toBeDefined();
+  });
+  it('ao clicar na image da receita é redirecionado para a página detalhes', async () => {
+    const test = renderWithRouterAndContext(
+      <App />, Provider, ['/'],
+    );
+
+    const { history } = test;
+    history.push('/favorite-recipes');
+
+    const imgFood = await screen.findByTestId('0-horizontal-image');
+
+    userEvent.click(imgFood);
+    expect(screen.getByText('Ingredientes')).toBeInTheDocument();
+  });
+  it('ao clicar no nome da receita é redirecionado para a página detalhes', async () => {
+    const test = renderWithRouterAndContext(
+      <App />, Provider, ['/'],
+    );
+
+    const { history } = test;
+    history.push('/favorite-recipes');
+
+    const nameFood = await screen.findByTestId('1-horizontal-name');
+
+    userEvent.click(nameFood);
+
+    expect(screen.getByText('Ingredientes')).toBeInTheDocument();
+  });
 });
