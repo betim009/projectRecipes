@@ -7,6 +7,9 @@ import {
 import {
   foodFindName, foodsFilterByCategory, foodsFindCategory,
 } from '../services/ApiFood';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/image.css';
 
 export default function Recipes({ typePage }) {
   const [recipes, setRecipes] = useState([]);
@@ -68,6 +71,7 @@ export default function Recipes({ typePage }) {
 
   const button = (item, i) => (
     <button
+      className="btn btn-primary m-1"
       key={ i }
       type="button"
       data-testid={ `${item.strCategory}-category-filter` }
@@ -78,7 +82,7 @@ export default function Recipes({ typePage }) {
   );
 
   return (
-    <div>
+    <div className="container-fluid text-center justify-content-center">
       {
         category.meals && category.meals.slice(0, maxCategory).map((item, i) => (
           button(item, i)
@@ -90,42 +94,56 @@ export default function Recipes({ typePage }) {
         ))
       }
       <button
+        className="btn btn-primary ml-1"
         type="button"
         data-testid="All-category-filter"
         onClick={ () => defaultResults() }
       >
         All
       </button>
-      {
-        recipes.drinks && recipes.drinks.slice(0, maxRecipes)
-          .map((item, index) => (
-            <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
-              <div data-testid={ `${index}-recipe-card` }>
-                <img
-                  src={ item.strDrinkThumb }
-                  alt={ item.strDrink }
-                  data-testid={ `${index}-card-img` }
-                />
-                <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
-              </div>
-            </Link>
-          ))
-      }
-      {
-        recipes.meals && recipes.meals.slice(0, maxRecipes)
-          .map((item, index) => (
-            <Link to={ `/foods/${item.idMeal}` } key={ `${index}-${item.strMeal}` }>
-              <div data-testid={ `${index}-recipe-card` }>
-                <img
-                  src={ item.strMealThumb }
-                  alt={ item.strMeal }
-                  data-testid={ `${index}-card-img` }
-                />
-                <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
-              </div>
-            </Link>
-          ))
-      }
+      <div
+        className="row row-cols-sm-2 mt-2
+          row-cols-md-3 g-3 text-center justify-content-center"
+      >
+        {
+          recipes.drinks && recipes.drinks.slice(0, maxRecipes)
+            .map((item, index) => (
+              <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
+                <div
+                  className="col"
+                  data-testid={ `${index}-recipe-card` }
+                >
+                  <img
+                    className="img-size mb-2"
+                    src={ item.strDrinkThumb }
+                    alt={ item.strDrink }
+                    data-testid={ `${index}-card-img` }
+                  />
+                  <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
+                </div>
+              </Link>
+            ))
+        }
+        {
+          recipes.meals && recipes.meals.slice(0, maxRecipes)
+            .map((item, index) => (
+              <Link to={ `/foods/${item.idMeal}` } key={ `${index}-${item.strMeal}` }>
+                <div
+                  className="col"
+                  data-testid={ `${index}-recipe-card` }
+                >
+                  <img
+                    className="img-size mb-2"
+                    src={ item.strMealThumb }
+                    alt={ item.strMeal }
+                    data-testid={ `${index}-card-img` }
+                  />
+                  <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
+                </div>
+              </Link>
+            ))
+        }
+      </div>
     </div>
   );
 }
