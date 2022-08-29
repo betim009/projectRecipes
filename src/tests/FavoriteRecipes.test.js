@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import App from '../App';
 import Provider from '../AppContext/Provider';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import renderWithRouterAndContext from './renderWithRouterAndContext';
@@ -32,14 +33,15 @@ const mockStorage = [{
 describe('A página Favorite Recipes', () => {
   beforeEach(() => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mockStorage));
-    renderWithRouterAndContext(
-      <FavoriteRecipes />, Provider,
-    );
   });
   afterEach(() => {
     localStorage.clear();
   });
   it('é renderizada com os cards favoritados', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
     const imgFood = screen.getByTestId('0-horizontal-image');
     const textFood = screen.getByTestId('0-horizontal-top-text');
     const nameFood = screen.getByTestId('0-horizontal-name');
@@ -58,6 +60,10 @@ describe('A página Favorite Recipes', () => {
       .toHaveTextContent(mockStorage[1].alcoholicOrNot);
   });
   it('ao clicar no botão favorito o item deve desaparecer da tela', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
     const heartBtn = screen.getByTestId('0-horizontal-favorite-btn');
     const foodName = screen.getByText(/Corba/i);
 
@@ -71,6 +77,10 @@ describe('A página Favorite Recipes', () => {
     expect(list2.length).toBe(1);
   });
   it('filtra a lista de favoritos por tipo', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
+
     const btnAll = screen.getByTestId('filter-by-all-btn');
     const btnFood = screen.getByTestId('filter-by-food-btn');
     const btnDrink = screen.getByTestId('filter-by-drink-btn');
@@ -94,25 +104,44 @@ describe('A página Favorite Recipes', () => {
     expect(nameFood).toBeDefined();
     expect(nameDrink).toBeDefined();
   });
-  // it('ao clicar no botao de compartilhar aparece uma mensagem', () => {
-  //   const shareBtn = screen.getByTestId('0-horizontal-share-btn');
+  it('ao clicar no botao de compartilhar aparece uma mensagem', () => {
+    renderWithRouterAndContext(
+      <FavoriteRecipes />, Provider,
+    );
 
-  //   userEvent.click(shareBtn);
+    const shareBtn = screen.getByTestId('0-horizontal-share-btn');
 
-  //   expect(screen.getByText('Link copied!')).toBeDefined();
-  // });
-  // it('ao clicar na image da receita é redirecionado para a página detalhes', () => {
-  //   const imgFood = screen.getByTestId('0-horizontal-image');
+    userEvent.click(shareBtn);
 
-  //   userEvent.click(imgFood);
+    const test = screen.getAllByText('Link copied!');
 
-  //   expect(screen.getByText('Ingredientes')).toBeDefined();
-  // });
-  // it('ao clicar no nome da receita é redirecionado para a página detalhes', () => {
-  //   const nameFood = screen.getByTestId('1-horizontal-name');
+    expect(test).toBeDefined();
+  });
+  it('ao clicar na image da receita é redirecionado para a página detalhes', async () => {
+    const test = renderWithRouterAndContext(
+      <App />, Provider, ['/'],
+    );
 
-  //   userEvent.click(nameFood);
+    const { history } = test;
+    history.push('/favorite-recipes');
 
-  //   expect(screen.getByText('Ingredientes')).toBeInTheDocument();
-  // });
+    const imgFood = await screen.findByTestId('0-horizontal-image');
+
+    userEvent.click(imgFood);
+    expect(screen.getByText('Ingredientes')).toBeInTheDocument();
+  });
+  it('ao clicar no nome da receita é redirecionado para a página detalhes', async () => {
+    const test = renderWithRouterAndContext(
+      <App />, Provider, ['/'],
+    );
+
+    const { history } = test;
+    history.push('/favorite-recipes');
+
+    const nameFood = await screen.findByTestId('1-horizontal-name');
+
+    userEvent.click(nameFood);
+
+    expect(screen.getByText('Ingredientes')).toBeInTheDocument();
+  });
 });
