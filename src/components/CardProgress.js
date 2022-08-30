@@ -11,26 +11,30 @@ export default function CardProgress({ dataRecipe }) {
 
   }, []);
 
-  return (
+  const cardRecipe = (
+    strName,
+    strThumb,
+    strCategory,
+    strInstructions,
+  ) => (
     <div>
-      { pathname.includes('drinks') && (
-        <div>
-          <h1 data-testid="recipe-title">{totalDataRecipe.strDrink}</h1>
-          <img
-            data-testid="recipe-photo"
-            src={ totalDataRecipe.strDrinkThumb }
-            alt="foto-Drink"
-          />
-          <p data-testid="recipe-category">{totalDataRecipe.strCategory}</p>
-          <FavoriteButton />
-          <ShareButton pathname={ pathname } />
-          <h3>Ingredientes</h3>
-          <ol>
-            {ingredientsList.map((item, index) => (
+      <h1 data-testid="recipe-title">{strName}</h1>
+      <img
+        data-testid="recipe-photo"
+        src={ strThumb }
+        alt="foto-Drink"
+      />
+      <p data-testid="recipe-category">{strCategory}</p>
+      <FavoriteButton />
+      <ShareButton pathname={ pathname } />
+      <h3>Ingredientes</h3>
+      <ul>
+        {ingredientsList
+          .map((item, index) => (
+            <div key={ `${item.name}-${index}` }>
               <label
-                key={ `${item.name}-${index}` }
-                htmlFor="checkbox"
                 data-testid={ `${index}-ingredient-step` }
+                htmlFor="checkbox"
               >
                 <input
                   name={ item.name }
@@ -40,23 +44,36 @@ export default function CardProgress({ dataRecipe }) {
                   {`${item.name} - ${item.measure}`}
                 </li>
               </label>
-            ))}
-          </ol>
-        </div>
-      )}
-      {/* { pathname.includes('foods') && (
-        <div>
-          <h1 data-testid="recipe-title">{infoFoods.strFood}</h1>
-          <img
-            src={ infoFoods.strFoodThumb }
-            alt="foto-Drink"
-            data-testid="recipe-photo"
-          />
-          <p data-testid="recipe-category">{infoFoods.strCategory}</p>
-          <FavoriteButton />
-          <ShareButton pathname={ pathname } />
-        </div>
-      )} */}
+            </div>))}
+      </ul>
+      <p data-testid="instructions">{strInstructions}</p>
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+      >
+        Finalizar Receita
+      </button>
+    </div>
+  );
+
+  console.log('Informações da receita: ', dataRecipe);
+
+  return (
+    <div>
+      { pathname.includes('drinks')
+        && cardRecipe(
+          totalDataRecipe.strDrink,
+          totalDataRecipe.strDrinkThumb,
+          totalDataRecipe.strCategory,
+          totalDataRecipe.strInstructions,
+        )}
+      { pathname.includes('foods')
+        && cardRecipe(
+          totalDataRecipe.strFood,
+          totalDataRecipe.strFoodThumb,
+          totalDataRecipe.strCategory,
+          totalDataRecipe.strInstructions,
+        )}
     </div>
   );
 }
