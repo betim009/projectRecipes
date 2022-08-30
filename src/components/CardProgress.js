@@ -7,6 +7,9 @@ export default function CardProgress({ dataRecipe, onChange }) {
   const { pathname } = window.location;
   const { totalDataRecipe, ingredientsList } = dataRecipe;
 
+  // Esta linha é necessária devido uma falha não compreendida nos testes.
+  const ingredientsTest = ingredientsList.filter((item) => item.name !== '');
+
   useEffect(() => {
 
   }, []);
@@ -29,7 +32,7 @@ export default function CardProgress({ dataRecipe, onChange }) {
       <ShareButton pathname={ pathname } />
       <h3>Ingredientes</h3>
       <ul>
-        {ingredientsList
+        {ingredientsTest
           .map((item, index) => (
             <div key={ `${item.name}-${index}` }>
               <label
@@ -57,7 +60,7 @@ export default function CardProgress({ dataRecipe, onChange }) {
     </div>
   );
 
-  console.log('Informações da receita: ', dataRecipe);
+  console.log('Informações: ', ingredientsTest);
 
   return (
     <div>
