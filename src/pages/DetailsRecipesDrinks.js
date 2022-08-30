@@ -12,7 +12,7 @@ import '../style/DetailsRecipes.css';
 const copy = require('clipboard-copy');
 
 export default function DetailsRecipesDrinks() {
-  const { id, setId, data, setData, ingredientList, setIngedientList,
+  const { id: currentId, setId, data, setData, ingredientList, setIngedientList,
     measureList, setMeasureList, recipeBtn, setRecipeBtn, inProgressRecipes,
     setInProgressRecipes, setDoneRecipes } = useContext(AppContext);
 
@@ -55,11 +55,11 @@ export default function DetailsRecipesDrinks() {
   useEffect(() => {
     const dnRecipes = localStorage.getItem('doneRecipes');
     if (dnRecipes === null) {
-      return localStorage.setItem('doneRecipes', '[]');
+      return localStorage.setItem('doneRecipes', JSON.stringify([]));
     }
     const array = JSON.parse(dnRecipes);
 
-    const isDone = array.some((it) => it.id === id);
+    const isDone = array.some((it) => it.id === currentId);
     if (isDone) {
       setRecipeBtn(false);
     }
@@ -103,7 +103,7 @@ export default function DetailsRecipesDrinks() {
     const favRecipes = localStorage.getItem('favoriteRecipes');
     const array = JSON.parse(favRecipes);
 
-    const newArray = array.filter((ele) => ele.id !== id);
+    const newArray = array.filter((ele) => ele.id !== currentId);
 
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
   };
@@ -192,14 +192,14 @@ export default function DetailsRecipesDrinks() {
             className="recipeBtn"
             type="button"
             data-testid="start-recipe-btn"
-            onClick={ () => { history.push(`/drinks/${id}/in-progress`); } }
+            onClick={ () => { history.push(`/drinks/${currentId}/in-progress`); } }
           >
             {
               (inProgressRecipes.cocktails === undefined)
                 ? 'Start Recipe'
                 : (
                   Object.keys(inProgressRecipes.cocktails)
-                    .some((recipeID) => recipeID === id) && 'Continue Recipe')
+                    .some((recipeID) => recipeID === currentId) && 'Continue Recipe')
             }
           </button>
         )
