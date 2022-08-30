@@ -66,35 +66,33 @@ export default function RecipeInProgress() {
       .filter((item) => item[1] !== null)
       .map((item) => item[1]);
     const previousStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
-    // const previousCheckStorage = previousStorage === null
-    //   ? ingredientsNameList.map(() => false)
-    //   : pathname.includes('drinks')
-    //     ? Object.keys(previousStorage.cocktails[id])
-    //     : Object.keys(previousStorage.meals[id]);
+    let previousCheckStorageDrinks = {};
+    let previousCheckStorageFoods = {};
+    let previousCheck = {};
 
     if (previousStorage !== null) {
       if (pathname.includes('drinks')) {
-        const previousCheckStorageDrinks = previousStorage.cocktails[id]
+        previousCheckStorageDrinks = previousStorage.cocktails[id]
           ? Object.keys(previousStorage.cocktails[id])
           : ingredientsNameList.map(() => false);
       } else {
-        const previousCheckStorageFoods = previousStorage.meals[id]
+        previousCheckStorageFoods = previousStorage.meals[id]
           ? Object.keys(previousStorage.meals[id])
           : ingredientsNameList.map(() => false);
       }
-
-      const previousCheck = pathname.includes('drinks')
-        ? 
-    } else {
-      const initialCheckStorage = ingredientsNameList.map(() => false);
+      previousCheck = pathname.includes('drinks')
+        ? previousCheckStorageDrinks
+        : previousCheckStorageFoods;
     }
+    const previousButton = previousStorage !== null
+      ? previousCheck
+      : ingredientsNameList.map(() => false);
 
     const ingredientsList = ingredientsNameList
       .map((item, index) => ({
         name: item,
         measure: ingredientsMeasuresList[index],
-        status: [index],
+        status: previousButton[index],
       }));
     const ingredientsStorage = ingredientsNameList
       .reduce((acc, item, index) => ({
