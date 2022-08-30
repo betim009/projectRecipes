@@ -10,8 +10,8 @@ function Footer() {
   const history = useHistory();
 
   return (
-    <footer className="ft" data-testid="footer">
-      <div className="container-fluid bg-primary text-center fixed-bottom p-1">
+    <footer className="ft fixed-bottom" data-testid="footer">
+      <div className="container-fluid bg-primary text-center p-1">
         <button
           type="button"
           className="m-1"
