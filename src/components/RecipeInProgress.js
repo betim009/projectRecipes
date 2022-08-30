@@ -20,7 +20,6 @@ export default function RecipeInProgress() {
 
   const storage = (ingredientsStorage) => {
     const prevStatusStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log('Estado prévio storage: ', prevStatusStorage);
     if (prevStatusStorage === null) {
       const initialStatus = {
         cocktails: pathname.includes('drinks')
@@ -35,7 +34,6 @@ export default function RecipeInProgress() {
           : {},
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(initialStatus));
-      console.log('Estado inicial storage: ', initialStatus);
     } else {
       const updateStatus = {
         cocktails: pathname.includes('drinks')
@@ -68,31 +66,27 @@ export default function RecipeInProgress() {
     const previousStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let previousCheckStorageDrinks = {};
     let previousCheckStorageFoods = {};
-    let previousCheck = {};
 
-    if (previousStorage !== null) {
-      if (pathname.includes('drinks')) {
-        previousCheckStorageDrinks = previousStorage.cocktails[id]
-          ? Object.keys(previousStorage.cocktails[id])
-          : ingredientsNameList.map(() => false);
-      } else {
-        previousCheckStorageFoods = previousStorage.meals[id]
-          ? Object.keys(previousStorage.meals[id])
-          : ingredientsNameList.map(() => false);
-      }
-      previousCheck = pathname.includes('drinks')
-        ? previousCheckStorageDrinks
-        : previousCheckStorageFoods;
+    if (previousStorage !== null && pathname.includes('drinks')) {
+      previousCheckStorageDrinks = previousStorage.cocktails[id]
+        ? Object.keys(previousStorage.cocktails[id])
+        : ingredientsNameList.map(() => false);
+    } else if (previousStorage !== null && pathname.includes('foods')) {
+      previousCheckStorageFoods = previousStorage.meals[id]
+        ? Object.keys(previousStorage.meals[id])
+        : ingredientsNameList.map(() => false);
     }
-    const previousButton = previousStorage !== null
-      ? previousCheck
-      : ingredientsNameList.map(() => false);
+    const previousCheck = previousStorage !== null && pathname.includes('drinks')
+      ? previousCheckStorageDrinks
+      : previousCheckStorageFoods;
 
     const ingredientsList = ingredientsNameList
       .map((item, index) => ({
         name: item,
         measure: ingredientsMeasuresList[index],
-        status: previousButton[index],
+        status: previousStorage !== null
+          ? previousCheck[index]
+          : ingredientsNameList.map(() => false)[index],
       }));
     const ingredientsStorage = ingredientsNameList
       .reduce((acc, item, index) => ({
@@ -107,6 +101,21 @@ export default function RecipeInProgress() {
       ingredientsList,
     };
     setInfoRecipe(data);
+  };
+
+  const handleChangeCheckbox = ({ target }) => {
+    const ingredientsList = infoRecipe.ingredientsList
+      .map((item) => ({
+        name: item.name,
+        measure: item.measure,
+        status: item.name === target.name ? !item.status : item.status,
+      }));
+    const data = {
+      ...infoRecipe,
+      ingredientsList,
+    };
+    setInfoRecipe(data);
+    console.log(data);
   };
 
   const fetchDrinks = async () => {
@@ -133,7 +142,11 @@ export default function RecipeInProgress() {
 
   return (
     <div>
-      { infoRecipe.totalDataRecipe && <CardProgress dataRecipe={ infoRecipe } /> }
+      { infoRecipe.totalDataRecipe
+        && <CardProgress
+          dataRecipe={ infoRecipe }
+          onChange={ handleChangeCheckbox }
+        /> }
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from './ShareButton';
 
-export default function CardProgress({ dataRecipe }) {
+export default function CardProgress({ dataRecipe, onChange }) {
   const { pathname } = window.location;
   const { totalDataRecipe, ingredientsList } = dataRecipe;
 
@@ -39,6 +39,7 @@ export default function CardProgress({ dataRecipe }) {
                 <input
                   name={ item.name }
                   type="checkbox"
+                  onChange={ onChange }
                 />
                 <li>
                   {`${item.name} - ${item.measure}`}
@@ -80,4 +81,5 @@ export default function CardProgress({ dataRecipe }) {
 
 CardProgress.propTypes = {
   dataRecipe: PropTypes.objectOf(PropTypes.any).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
