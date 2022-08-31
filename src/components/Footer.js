@@ -1,13 +1,15 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import drinkIcon from '../images/drinkIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import '../style/recipes.css';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import AppContext from '../AppContext/AppContext';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
 import '../style/Footer.css';
+import '../style/recipes.css';
 
 function Footer() {
+  const { setRecipes } = useContext(AppContext);
   const history = useHistory();
 
   return (
@@ -16,7 +18,7 @@ function Footer() {
         <button
           type="button"
           className="m-1"
-          onClick={ () => history.push('/drinks') }
+          onClick={ () => { history.push('/drinks'); setRecipes([]); } }
         >
           <img
             data-testid="drinks-bottom-btn"
@@ -26,7 +28,7 @@ function Footer() {
         </button>
         <button
           type="button"
-          onClick={ () => history.push('/foods') }
+          onClick={ () => { history.push('/foods'); setRecipes([]); } }
         >
           <img
             data-testid="food-bottom-btn"
