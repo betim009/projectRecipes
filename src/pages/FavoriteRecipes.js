@@ -42,8 +42,9 @@ export default function FavoriteRecipes() {
   return (
     <div>
       <Header title="Favorite Recipes" search={ false } />
-      <div>
+      <div className="text-center mb-3 mt-3">
         <button
+          className="btn bg-amarelo ml-1 rounded"
           type="button"
           data-testid="filter-by-all-btn"
           onClick={ () => allFilter() }
@@ -51,6 +52,7 @@ export default function FavoriteRecipes() {
           All
         </button>
         <button
+          className="btn bg-amarelo ml-1 rounded"
           type="button"
           data-testid="filter-by-food-btn"
           onClick={ () => favoriteFilter('food') }
@@ -58,6 +60,7 @@ export default function FavoriteRecipes() {
           Food
         </button>
         <button
+          className="btn bg-amarelo ml-1 rounded"
           type="button"
           data-testid="filter-by-drink-btn"
           onClick={ () => favoriteFilter('drink') }
@@ -65,10 +68,13 @@ export default function FavoriteRecipes() {
           Drinks
         </button>
       </div>
-      <div>
+      <div className="text-center container">
         {
           favoriteList.map((recipe, index) => (
-            <div key={ recipe.id }>
+            <div
+              className="row shadow mb-5"
+              key={ recipe.id }
+            >
               <Link to={ `/${recipe.type}s/${recipe.id}` }>
                 <img
                   className="card-image"
@@ -77,54 +83,71 @@ export default function FavoriteRecipes() {
                   alt={ recipe.name }
                 />
               </Link>
-              {
-                (recipe.type === 'food')
-                  ? (
-                    <p data-testid={ `${index}-horizontal-top-text` }>
-                      {recipe.nationality}
-                      {' '}
-                      -
-                      {' '}
-                      {recipe.category}
-                    </p>
-                  )
-                  : (
-                    <p data-testid={ `${index}-horizontal-top-text` }>
-                      {recipe.alcoholicOrNot}
-                    </p>
-                  )
-              }
-              <button
-                type="button"
-                onClick={ () => history.push(`${recipe.type}s/${recipe.id}`) }
-              >
-                <h1 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h1>
-              </button>
-              <div>
+              <div className="col">
+                {
+                  (recipe.type === 'food')
+                    ? (
+                      <p
+                        className="text-dark"
+                        data-testid={ `${index}-horizontal-top-text` }
+                      >
+                        {recipe.nationality}
+                        {' '}
+                        -
+                        {' '}
+                        {recipe.category}
+                      </p>
+                    )
+                    : (
+                      <p
+                        className="text-dark"
+                        data-testid={ `${index}-horizontal-top-text` }
+                      >
+                        {recipe.alcoholicOrNot}
+                      </p>
+                    )
+                }
                 <button
+                  className="btn"
                   type="button"
-                  onClick={ () => {
-                    copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`);
-                    setIsLinkCopied(false);
-                  } }
+                  onClick={ () => history.push(`${recipe.type}s/${recipe.id}`) }
                 >
-                  <img
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    src={ shareIcon }
-                    alt="A button that share the recipe"
-                  />
+                  <h1
+                    className="h5 ngt"
+                    data-testid={ `${index}-horizontal-name` }
+                  >
+                    {recipe.name}
+
+                  </h1>
                 </button>
-                <p hidden={ isLinkCopied }>Link copied!</p>
-                <button
-                  type="button"
-                  onClick={ () => handleRemoveFav(recipe.id) }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-favorite-btn` }
-                    src={ blackHeartIcon }
-                    alt="A button that favorite the recipe"
-                  />
-                </button>
+                <div>
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={ () => {
+                      copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`);
+                      setIsLinkCopied(false);
+                    } }
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      src={ shareIcon }
+                      alt="A button that share the recipe"
+                    />
+                  </button>
+                  <p hidden={ isLinkCopied }>Link copied!</p>
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={ () => handleRemoveFav(recipe.id) }
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      src={ blackHeartIcon }
+                      alt="A button that favorite the recipe"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           ))

@@ -17,7 +17,7 @@ function Footer() {
       <div className="container-fluid bg-laranja text-center p-1">
         <button
           type="button"
-          className="m-1"
+          className="m-1 btn"
           onClick={ () => { history.push('/drinks'); setRecipes([]); } }
         >
           <img
@@ -27,6 +27,7 @@ function Footer() {
           />
         </button>
         <button
+          className="btn"
           type="button"
           onClick={ () => { history.push('/foods'); setRecipes([]); } }
         >

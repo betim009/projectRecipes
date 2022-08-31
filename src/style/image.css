@@ -1,3 +1,31 @@
-.img-size {
-  max-width: 120px;
+.bg-laranja {
+  background-color: #f08027;
 }
+
+.bg-cz {
+  background-color: #f1f0f0;
+  border-radius: 20px;
+}
+
+.crs {
+  max-width: 360px;
+}
+
+.negrito {
+  font-size: 33px;
+  font-weight: 700;
+}
+
+.img-size {
+  max-width: 130px;
+}
+
+.img-carrosel {
+  height: 100%;
+  width: 100%;
+}
+
+.ytb {
+  max-width: 300px;
+}
+

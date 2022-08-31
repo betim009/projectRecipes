@@ -16,8 +16,9 @@ function Header({ title, search }) {
     <header className="mb-2">
       <nav className="navbar navbar-expand-md bg-laranja">
         <div className="container-fluid justify-content-center">
-          <h1 className="h3 text-light m-1" data-testid="page-title">{ title }</h1>
+          <h1 className="h3 m-1" data-testid="page-title">{ title }</h1>
           <button
+            className="btn icn-branco"
             type="button"
             onClick={ () => history.push('/profile') }
           >
@@ -31,6 +32,7 @@ function Header({ title, search }) {
 && (
 
   <button
+    className="btn btn"
     type="button"
     onClick={ () => setSearchBar((prev) => !prev) }
   >

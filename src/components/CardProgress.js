@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from './ShareButton';
+import '../style/image.css';
 
 export default function CardProgress({ dataRecipe, onChange }) {
   const { pathname } = window.location;
@@ -21,17 +22,31 @@ export default function CardProgress({ dataRecipe, onChange }) {
     strInstructions,
   ) => (
     <div>
-      <h1 data-testid="recipe-title">{strName}</h1>
-      <img
-        data-testid="recipe-photo"
-        src={ strThumb }
-        alt="foto-Drink"
-      />
-      <p data-testid="recipe-category">{strCategory}</p>
-      <FavoriteButton />
-      <ShareButton pathname={ pathname } />
+      <div className="bg-cz text-center text-dark m-auto row">
+        <img
+          className="img-carrosel"
+          data-testid="recipe-photo"
+          src={ strThumb }
+          alt="foto-Drink"
+        />
+        <div className="col">
+          <h1
+            className="text-dark negrito"
+            data-testid="recipe-title"
+          >
+            {strName}
+
+          </h1>
+          <p className="h5" data-testid="recipe-category">{strCategory}</p>
+        </div>
+        <div className="col">
+          <FavoriteButton />
+          <ShareButton pathname={ pathname } />
+        </div>
+      </div>
+
       <h3>Ingredientes</h3>
-      <ul>
+      <ul className="list-group">
         {ingredientsTest
           .map((item, index) => (
             <div key={ `${item.name}-${index}` }>
@@ -52,6 +67,7 @@ export default function CardProgress({ dataRecipe, onChange }) {
       </ul>
       <p data-testid="instructions">{strInstructions}</p>
       <button
+        className="btn btn-dark"
         data-testid="finish-recipe-btn"
         type="button"
       >

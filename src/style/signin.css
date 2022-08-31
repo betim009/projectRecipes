@@ -12,16 +12,27 @@
 } */
 
 .div-center {
+  background-color: #f08027;
+  height: 1920px;
   padding-bottom: 10%;
   padding-top: 15%;
   text-align: center;
 }
 
+.bg-amarelo {
+  background-color: #fce98d;
+  font-weight: 700;
+}
+
 .bt {
-  background-color: #f08027;
   margin: auto;
   max-width: 220px;
   width: 100%;
+}
+
+.centro {
+  margin-bottom: 10%;
+  margin-top: 15%;
 }
 
 .form-signin {
@@ -36,6 +47,6 @@
 }
 
 .img-logo {
-  max-width: 200px;
+  max-width: 325px;
 }
 

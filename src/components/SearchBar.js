@@ -124,6 +124,7 @@ export default function SearchBar({ title }) {
       </label>
       <div className="col text-center">
         <button
+          className="btn btn-block btn-light"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }

@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import '../style/signin.css';
-import logo from '../images/perfil.png';
+import logo2 from '../images/perfil2.png';
 
 function Login() {
   const [disabled, setDisabled] = useState(true);
@@ -32,16 +32,18 @@ function Login() {
 
   return (
     <div className="text-center div-center">
-      <form className="form-signin">
+      <div className="container justify-content-center">
         <img
-          className="img-logo"
-          src={ logo }
+          className="img-logo m-auto"
+          src={ logo2 }
           alt="gohan"
         />
-
+      </div>
+      <form className="form-signin">
         <div className="form-floating">
-          <h1 className="h4 mb-2">Please sign in</h1>
+          <h1 className="h4 mb-2 text-white">Please sign in</h1>
           <input
+            className="mb-2"
             type="email"
             placeholder="type your email"
             data-testid="email-input"
@@ -50,6 +52,7 @@ function Login() {
           />
         </div>
         <input
+          className="mb-2"
           type="password"
           placeholder="type your password"
           data-testid="password-input"
@@ -57,7 +60,7 @@ function Login() {
           value={ password }
         />
         <button
-          className="btn btn-block bt mt-1 text-white"
+          className="btn bg-amarelo btn-block bt mt-1 "
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }

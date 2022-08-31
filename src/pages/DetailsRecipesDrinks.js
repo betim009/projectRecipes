@@ -8,6 +8,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../style/DetailsRecipes.css';
+import '../style/image.css';
 
 const copy = require('clipboard-copy');
 
@@ -121,47 +122,56 @@ export default function DetailsRecipesDrinks() {
 
   return (
     <div>
-      <img
-        src={ data.strDrinkThumb }
-        alt={ data.strDrink }
-        data-testid="recipe-photo"
-      />
-      <h1 data-testid="recipe-title">{ data.strDrink }</h1>
-      <div>
-        <button
-          type="button"
-          onClick={ () => {
-            copy(`http://localhost:3000${pathname}`);
-            setIsLinkCopied(false);
-          } }
-        >
-          <img
-            data-testid="share-btn"
-            src={ shareIcon }
-            alt="A button that share the recipe"
-          />
-        </button>
-        <p hidden={ isLinkCopied }>Link copied!</p>
-        <button
-          type="button"
-          onClick={ () => handleFavoriteBtn() }
-        >
-          <img
-            data-testid="favorite-btn"
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-            alt="A button that favorite the recipe"
-          />
-        </button>
+      <div className="bg-cz text-dark m-auto row">
+        <img
+          className="img-carrosel"
+          src={ data.strDrinkThumb }
+          alt={ data.strDrink }
+          data-testid="recipe-photo"
+        />
+        <div className="col">
+          <h1 data-testid="recipe-title">{ data.strDrink }</h1>
+          <h3 data-testid="recipe-category">
+            Categoria:
+            {''}
+            { data.strCategory }
+            {''}
+            {'-'}
+            {''}
+            { data.strAlcoholic }
+          </h3>
+        </div>
+
+        <div className="col">
+          <button
+            className="btn"
+            type="button"
+            onClick={ () => handleFavoriteBtn() }
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="A button that favorite the recipe"
+            />
+          </button>
+          <button
+            className="btn"
+            type="button"
+            onClick={ () => {
+              copy(`http://localhost:3000${pathname}`);
+              setIsLinkCopied(false);
+            } }
+          >
+            <img
+              data-testid="share-btn"
+              src={ shareIcon }
+              alt="A button that share the recipe"
+            />
+          </button>
+          <p hidden={ isLinkCopied }>Link copied!</p>
+
+        </div>
       </div>
-      <h3 data-testid="recipe-category">
-        Categoria:
-        {''}
-        { data.strCategory }
-        {''}
-        {'-'}
-        {''}
-        { data.strAlcoholic }
-      </h3>
       <div>
         <h3>
           Ingredientes
@@ -188,20 +198,22 @@ export default function DetailsRecipesDrinks() {
       {
         recipeBtn
         && (
-          <button
-            className="recipeBtn"
-            type="button"
-            data-testid="start-recipe-btn"
-            onClick={ () => { history.push(`/drinks/${currentId}/in-progress`); } }
-          >
-            {
-              (inProgressRecipes.cocktails === undefined)
-                ? 'Start Recipe'
-                : (
-                  Object.keys(inProgressRecipes.cocktails)
-                    .some((recipeID) => recipeID === currentId) && 'Continue Recipe')
-            }
-          </button>
+          <div className="fixed-bottom bg-laranja text-center">
+            <button
+              className="btn text-white ng"
+              type="button"
+              data-testid="start-recipe-btn"
+              onClick={ () => { history.push(`/drinks/${currentId}/in-progress`); } }
+            >
+              {
+                (inProgressRecipes.cocktails === undefined)
+                  ? 'Start Recipe'
+                  : (
+                    Object.keys(inProgressRecipes.cocktails)
+                      .some((recipeID) => recipeID === currentId) && 'Continue Recipe')
+              }
+            </button>
+          </div>
         )
       }
     </div>

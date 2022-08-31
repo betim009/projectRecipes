@@ -1,5 +1,14 @@
+a {
+  margin: 10px;
+  max-width: 150px;
+}
+
 .bg-laranja {
   background-color: #f08027;
+}
+
+.bg-cinza {
+  background-color: #b3b3b3;
 }
 
 .mg-b {
@@ -8,5 +17,6 @@
 
 h3 {
   color: #141414;
+  font-size: 18px;
 }
 

@@ -21,9 +21,16 @@ export default function Profile() {
   return (
     <div>
       <Header title="Profile" search={ false } />
-      <div>
-        <p data-testid="profile-email">{ emailState }</p>
+      <div className="container centro">
+        <p
+          className="h5 text-center"
+          data-testid="profile-email"
+        >
+          { emailState }
+
+        </p>
         <button
+          className="btn bg-amarelo btn-block"
           data-testid="profile-done-btn"
           type="button"
           onClick={ () => history.push('/done-recipes') }
@@ -32,6 +39,7 @@ export default function Profile() {
           Done Recipes
         </button>
         <button
+          className="btn bg-amarelo btn-block"
           data-testid="profile-favorite-btn"
           type="button"
           onClick={ () => history.push('/favorite-recipes') }
@@ -40,6 +48,7 @@ export default function Profile() {
           Favorite Recipes
         </button>
         <button
+          className="btn bg-amarelo btn-block"
           data-testid="profile-logout-btn"
           type="button"
           onClick={ handleClear }

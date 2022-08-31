@@ -4,6 +4,7 @@ import AppContext from '../AppContext/AppContext';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
+import '../style/image.css';
 
 export default function Drinks() {
   const { recipes } = useContext(AppContext);
@@ -18,20 +19,28 @@ export default function Drinks() {
       {
         recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
       }
-      {
-        recipes.length > 1 && recipes.slice(0, max).map((item, index) => (
-          <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
-            <div data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ item.strDrinkThumb }
-                alt={ item.strDrink }
-                data-testid={ `${index}-card-img` }
-              />
-              <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
-            </div>
-          </Link>
-        ))
-      }
+      <div className="container">
+        <div className="row">
+          {
+            recipes.length > 1 && recipes.slice(0, max).map((item, index) => (
+              <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
+                <div
+                  className="container text-center"
+                  data-testid={ `${index}-recipe-card` }
+                >
+                  <img
+                    className="img-size"
+                    src={ item.strDrinkThumb }
+                    alt={ item.strDrink }
+                    data-testid={ `${index}-card-img` }
+                  />
+                  <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
+                </div>
+              </Link>
+            ))
+          }
+        </div>
+      </div>
       <Footer />
     </div>
   );

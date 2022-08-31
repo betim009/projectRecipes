@@ -51,6 +51,7 @@ export default function FavoriteButton() {
   return (
     <div>
       <button
+        className="btn"
         data-testid="favorite-btn"
         type="button"
         onClick={ () => handleFavoriteBtn() }

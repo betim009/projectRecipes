@@ -72,7 +72,7 @@ export default function Recipes({ typePage }) {
 
   const button = (item, i) => (
     <button
-      className="btn bg-laranja m-1 text-white"
+      className="btn bg-cinza m-1 text-white"
       key={ i }
       type="button"
       data-testid={ `${item.strCategory}-category-filter` }
@@ -83,7 +83,7 @@ export default function Recipes({ typePage }) {
   );
 
   return (
-    <div className="container-fluid text-center justify-content-center mg-b">
+    <div className="container text-center mg-b">
       {
         category.meals && category.meals.slice(0, maxCategory).map((item, i) => (
           button(item, i)
@@ -95,16 +95,16 @@ export default function Recipes({ typePage }) {
         ))
       }
       <button
-        className="btn bg-laranja ml-1 text-white"
+        className="btn bg-cinza ml-1 text-white"
         type="button"
         data-testid="All-category-filter"
         onClick={ () => defaultResults() }
       >
         All
       </button>
-      <div className="row text-center justify-content-center">
+      <div className="">
         <div
-          className="col-6 col-xl-4"
+          className="row"
         >
           {
             recipes.drinks && recipes.drinks.slice(0, maxRecipes)
@@ -114,6 +114,7 @@ export default function Recipes({ typePage }) {
                   key={ `${index}-${item.strDrink}` }
                 >
                   <div
+                    className="col-6 .col-sm-4"
                     data-testid={ `${index}-recipe-card` }
                   >
                     <img
@@ -138,7 +139,7 @@ export default function Recipes({ typePage }) {
               .map((item, index) => (
                 <Link to={ `/foods/${item.idMeal}` } key={ `${index}-${item.strMeal}` }>
                   <div
-                    className="col"
+                    className="col-6 .col-sm-4"
                     data-testid={ `${index}-recipe-card` }
                   >
                     <img

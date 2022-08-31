@@ -9,6 +9,7 @@ export default function ShareButton({ pathname }) {
   return (
     <div>
       <button
+        className="btn"
         type="button"
         onClick={ () => {
           copy(`http://localhost:3000${pathname}`);
