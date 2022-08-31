@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from './ShareButton';
 import '../style/image.css';
 
 export default function CardProgress({ dataRecipe, onChange }) {
+  const history = useHistory();
   const { pathname } = window.location;
   const { totalDataRecipe, ingredientsList } = dataRecipe;
 
-  // Esta linha é necessária devido uma falha não compreendida nos testes.
-  const ingredientsTest = ingredientsList.filter((item) => item.name !== '');
-
-  useEffect(() => {
-
-  }, []);
+  // Esta linha é necessária devido um erro nos testes.
+  const ingredientsListFilter = ingredientsList.filter((item) => item.name !== '');
+  const disabledFinishButton = ingredientsListFilter
+    .every((item) => item.status === true);
 
   const cardRecipe = (
     strName,
@@ -47,7 +47,7 @@ export default function CardProgress({ dataRecipe, onChange }) {
 
       <h3>Ingredientes</h3>
       <ul className="list-group">
-        {ingredientsTest
+        {ingredientsListFilter
           .map((item, index) => (
             <div key={ `${item.name}-${index}` }>
               <label
@@ -57,6 +57,7 @@ export default function CardProgress({ dataRecipe, onChange }) {
                 <input
                   name={ item.name }
                   type="checkbox"
+                  checked={ item.status }
                   onChange={ onChange }
                 />
                 <li>
@@ -70,13 +71,15 @@ export default function CardProgress({ dataRecipe, onChange }) {
         className="btn btn-dark"
         data-testid="finish-recipe-btn"
         type="button"
+        disabled={ !disabledFinishButton }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finalizar Receita
       </button>
     </div>
   );
 
-  console.log('Informações: ', ingredientsTest);
+  console.log('Informações da receita: ', dataRecipe);
 
   return (
     <div>

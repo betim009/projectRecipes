@@ -5,56 +5,43 @@ import CardProgress from './CardProgress';
 export default function RecipeInProgress() {
   const { pathname } = window.location;
   const { id } = useParams();
-  const [infoRecipe, setInfoRecipe] = useState({});
+  const keyStorage = pathname.includes('drinks') ? 'cocktails' : 'meals';
+  const [infoRecipe, setInfoRecipe] = useState({
+    totalDataRecipe: {},
+    ingredientsList: [],
+  });
 
-  // useEffect(() => {
-  //   const prevStatus = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   if (prevStatus === null) {
-  //     const status = {
-  //       cocktails: {},
-  //       meals: {},
-  //     };
-  //     return localStorage.setItem('inProgressRecipes', JSON.stringify(status));
-  //   }
-  // }, []);
+  const updateStorage = (data) => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(data));
+  };
 
-  // const storage = (ingredientsStorage) => {
-  //   const prevStatusStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   if (prevStatusStorage === null) {
-  //     const initialStatus = {
-  //       cocktails: pathname.includes('drinks')
-  //         ? {
-  //           [id]: ingredientsStorage,
-  //         }
-  //         : {},
-  //       meals: pathname.includes('foods')
-  //         ? {
-  //           [id]: ingredientsStorage,
-  //         }
-  //         : {},
-  //     };
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify(initialStatus));
-  //   } else {
-  //     const updateStatus = {
-  //       cocktails: pathname.includes('drinks')
-  //         ? {
-  //           ...prevStatusStorage.cocktails,
-  //           [id]: ingredientsStorage,
-  //         }
-  //         : { ...prevStatusStorage.cocktails },
-  //       meals: pathname.includes('foods')
-  //         ? {
-  //           ...prevStatusStorage.meals,
-  //           [id]: ingredientsStorage,
-  //         }
-  //         : { ...prevStatusStorage.meals },
-  //     };
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify(updateStatus));
-  //     console.log('Estado atualizado storage: ', updateStatus);
-  //   }
-  // };
+  const initialStorage = (ingredientsList) => {
+    const recoverStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const storage = recoverStorage === null
+      ? {
+        cocktails: {},
+        meals: {},
+      } : recoverStorage;
+    const data = ingredientsList.reduce((acc, item) => ({
+      ...acc,
+      [item.name]: { ...item },
+    }), {});
+    const newStorage = {
+      ...storage,
+      [keyStorage]: {
+        ...storage[keyStorage],
+        [id]: data,
+      },
+    };
+
+    updateStorage(newStorage);
+  };
 
   const dataRecipe = (totalDataRecipe) => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const keyStatus = storage !== null
+      ? Object.keys(storage[keyStorage]).includes(id)
+      : false;
     const ingredientsNameList = Object.entries(totalDataRecipe)
       .filter((item) => item[0].includes('strIngredient'))
       .filter((item) => item[1] !== null)
@@ -63,61 +50,23 @@ export default function RecipeInProgress() {
       .filter((item) => item[0].includes('strMeasure'))
       .filter((item) => item[1] !== null)
       .map((item) => item[1]);
-    // const previousStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    // let previousCheckStorageDrinks = {};
-    // let previousCheckStorageFoods = {};
-
-    // if (previousStorage !== null && pathname.includes('drinks')) {
-    //   previousCheckStorageDrinks = previousStorage.cocktails[id]
-    //     ? Object.keys(previousStorage.cocktails[id])
-    //     : ingredientsNameList.map(() => false);
-    // } else if (previousStorage !== null && pathname.includes('foods')) {
-    //   previousCheckStorageFoods = previousStorage.meals[id]
-    //     ? Object.keys(previousStorage.meals[id])
-    //     : ingredientsNameList.map(() => false);
-    // }
-    // const previousCheck = previousStorage !== null && pathname.includes('drinks')
-    //   ? previousCheckStorageDrinks
-    //   : previousCheckStorageFoods;
 
     const ingredientsList = ingredientsNameList
       .map((item, index) => ({
         name: item,
         measure: ingredientsMeasuresList[index],
-        // status: previousStorage !== null
-        //   ? previousCheck[index]
-        //   : ingredientsNameList.map(() => false)[index],
-        status: false,
+        status: keyStatus
+          ? storage[keyStorage][id][item].status
+          : false,
       }));
-    // const ingredientsStorage = ingredientsNameList
-    //   .reduce((acc, item, index) => ({
-    //     ...acc,
-    //     [item]: ingredientsList[index].status,
-    //   }), {});
-
-    // storage(ingredientsStorage);
 
     const data = {
       totalDataRecipe,
       ingredientsList,
     };
-    setInfoRecipe(data);
-  };
 
-  const handleChangeCheckbox = ({ target }) => {
-    console.log(target);
-    // const ingredientsList = infoRecipe.ingredientsList
-    //   .map((item) => ({
-    //     name: item.name,
-    //     measure: item.measure,
-    //     status: item.name === target.name ? !item.status : item.status,
-    //   }));
-    // const data = {
-    //   ...infoRecipe,
-    //   ingredientsList,
-    // };
-    // setInfoRecipe(data);
-    // console.log(data);
+    if (!keyStatus) initialStorage(ingredientsList);
+    setInfoRecipe(data);
   };
 
   const fetchDrinks = async () => {
@@ -141,6 +90,39 @@ export default function RecipeInProgress() {
       fetchFood();
     }
   }, []);
+
+  const handleChangeCheckbox = ({ target }) => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const { name, checked } = target;
+    const newStorage = {
+      ...storage,
+      [keyStorage]: {
+        ...storage[keyStorage],
+        [id]: {
+          ...storage[keyStorage][id],
+          [name]: {
+            ...storage[keyStorage][id][name],
+            status: checked,
+          },
+        },
+      },
+    };
+    const ingredientsList = infoRecipe.ingredientsList
+      .map((item) => (item.name === name ? {
+        ...item,
+        status: checked,
+      } : item));
+
+    setInfoRecipe({
+      ...infoRecipe,
+      ingredientsList,
+    });
+    updateStorage(newStorage);
+  };
+
+  console.clear();
+  console.log('infoRecipe: ', infoRecipe);
+  console.log('localStorage: ', JSON.parse(localStorage.getItem('inProgressRecipes')));
 
   return (
     <div>
