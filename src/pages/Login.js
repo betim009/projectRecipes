@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import '../style/signin.css';
+import logo from '../images/perfil.png';
 
 function Login() {
   const [disabled, setDisabled] = useState(true);
@@ -32,6 +33,12 @@ function Login() {
   return (
     <div className="text-center div-center">
       <form className="form-signin">
+        <img
+          className="img-logo"
+          src={ logo }
+          alt="gohan"
+        />
+
         <div className="form-floating">
           <h1 className="h4 mb-2">Please sign in</h1>
           <input
@@ -50,7 +57,7 @@ function Login() {
           value={ password }
         />
         <button
-          className="btn btn-primary btn-block bt mt-1"
+          className="btn btn-block bt mt-1 text-white"
           type="button"
           data-testid="login-submit-btn"
           disabled={ disabled }

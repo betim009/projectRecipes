@@ -2,16 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import '../style/Footer.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/recipes.css';
+import '../style/Footer.css';
 
 function Footer() {
   const history = useHistory();
 
   return (
-    <footer className="ft fixed-bottom" data-testid="footer">
-      <div className="container-fluid bg-primary text-center p-1">
+    <footer className="fixed-bottom" data-testid="footer">
+      <div className="container-fluid bg-laranja text-center p-1">
         <button
           type="button"
           className="m-1"

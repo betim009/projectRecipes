@@ -85,20 +85,27 @@ export default function SearchBar({ title }) {
   };
 
   return (
-    <div>
-      <input type="text" data-testid="search-input" onChange={ handleInputSearch } />
-      <label htmlFor="ingredient">
+    <div className="container-fluid justify-content-center">
+      <input
+        className="mr-1"
+        type="text"
+        data-testid="search-input"
+        onChange={ handleInputSearch }
+      />
+      <label className="mr-1" htmlFor="ingredient">
         ingredient
         <input
+          className="ml-1"
           onChange={ () => setTypeSearchRadio('ingredient') }
           type="radio"
           name="choice"
           data-testid="ingredient-search-radio"
         />
       </label>
-      <label htmlFor="nameIngredient">
+      <label className="mr-1" htmlFor="nameIngredient">
         Name
         <input
+          className="ml-1"
           onChange={ () => setTypeSearchRadio('name') }
           type="radio"
           name="choice"
@@ -108,19 +115,22 @@ export default function SearchBar({ title }) {
       <label htmlFor="firstLetter">
         First letter
         <input
+          className="ml-1"
           onChange={ () => setTypeSearchRadio('firstLetter') }
           type="radio"
           name="choice"
           data-testid="first-letter-search-radio"
         />
       </label>
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ handleClick }
-      >
-        Search
-      </button>
+      <div className="col text-center">
+        <button
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ handleClick }
+        >
+          Search
+        </button>
+      </div>
     </div>
   );
 }

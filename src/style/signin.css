@@ -18,6 +18,7 @@
 }
 
 .bt {
+  background-color: #f08027;
   margin: auto;
   max-width: 220px;
   width: 100%;
@@ -32,5 +33,9 @@
 
 .form-signin .form-floating:focus-within {
   z-index: 2;
+}
+
+.img-logo {
+  max-width: 200px;
 }
 
