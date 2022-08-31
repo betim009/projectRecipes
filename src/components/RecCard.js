@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import '../style/image.css';
 
 function RecCard({ index, type }) {
   const [recomendationDrink, setRecomendationDrink] = useState({});
@@ -25,7 +26,7 @@ function RecCard({ index, type }) {
   }, []);
 
   return (
-    <div className="col-sm-6">
+    <div className="col-6 border text-center">
       {type === 'foods'
         ? (
           <div
@@ -33,6 +34,7 @@ function RecCard({ index, type }) {
             key={ index }
           >
             <img
+              className="img-carrosel"
               src={ recomendationFood.strMealThumb }
               alt={ recomendationFood.strMeal }
             />
@@ -45,6 +47,7 @@ function RecCard({ index, type }) {
         : (
           <div data-testid={ `${index}-recomendation-card` } key={ index }>
             <img
+              className="img-carrosel"
               src={ recomendationDrink.strDrinkThumb }
               alt={ recomendationDrink.strDrink }
             />

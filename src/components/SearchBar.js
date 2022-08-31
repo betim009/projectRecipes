@@ -85,42 +85,59 @@ export default function SearchBar({ title }) {
   };
 
   return (
-    <div>
-      <input type="text" data-testid="search-input" onChange={ handleInputSearch } />
-      <label htmlFor="ingredient">
-        ingredient
-        <input
-          onChange={ () => setTypeSearchRadio('ingredient') }
-          type="radio"
-          name="choice"
-          data-testid="ingredient-search-radio"
-        />
-      </label>
-      <label htmlFor="nameIngredient">
-        Name
-        <input
-          onChange={ () => setTypeSearchRadio('name') }
-          type="radio"
-          name="choice"
-          data-testid="name-search-radio"
-        />
-      </label>
-      <label htmlFor="firstLetter">
-        First letter
-        <input
-          onChange={ () => setTypeSearchRadio('firstLetter') }
-          type="radio"
-          name="choice"
-          data-testid="first-letter-search-radio"
-        />
-      </label>
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ handleClick }
-      >
-        Search
-      </button>
+    <div className="container-fluid justify-content-center">
+      <div className="col">
+        <div className="row">
+          <input
+            className="mr-1"
+            type="text"
+            data-testid="search-input"
+            onChange={ handleInputSearch }
+          />
+        </div>
+        <div className="row">
+          <label className="mr-1" htmlFor="ingredient">
+            ingredient
+            <input
+              className="ml-1"
+              onChange={ () => setTypeSearchRadio('ingredient') }
+              type="radio"
+              name="choice"
+              data-testid="ingredient-search-radio"
+            />
+          </label>
+          <label className="mr-1" htmlFor="nameIngredient">
+            Name
+            <input
+              className="ml-1"
+              onChange={ () => setTypeSearchRadio('name') }
+              type="radio"
+              name="choice"
+              data-testid="name-search-radio"
+            />
+          </label>
+          <label htmlFor="firstLetter">
+            First letter
+            <input
+              className="ml-1"
+              onChange={ () => setTypeSearchRadio('firstLetter') }
+              type="radio"
+              name="choice"
+              data-testid="first-letter-search-radio"
+            />
+          </label>
+        </div>
+        <div className="row text-center">
+          <button
+            className="btn btn-block btn-light"
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ handleClick }
+          >
+            Search
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

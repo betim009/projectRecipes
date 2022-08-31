@@ -1,21 +1,24 @@
-import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import AppContext from '../AppContext/AppContext';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 import '../style/Footer.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/recipes.css';
 
 function Footer() {
+  const { setRecipes } = useContext(AppContext);
   const history = useHistory();
 
   return (
-    <footer className="ft fixed-bottom" data-testid="footer">
-      <div className="container-fluid bg-primary text-center p-1">
+    <footer className="fixed-bottom" data-testid="footer">
+      <div className="container-fluid bg-laranja text-center p-1">
         <button
           type="button"
-          className="m-1"
-          onClick={ () => history.push('/drinks') }
+          className="m-1 btn"
+          onClick={ () => { history.push('/drinks'); setRecipes([]); } }
         >
           <img
             data-testid="drinks-bottom-btn"
@@ -24,8 +27,9 @@ function Footer() {
           />
         </button>
         <button
+          className="btn"
           type="button"
-          onClick={ () => history.push('/foods') }
+          onClick={ () => { history.push('/foods'); setRecipes([]); } }
         >
           <img
             data-testid="food-bottom-btn"

@@ -12,15 +12,27 @@
 } */
 
 .div-center {
+  background-color: #f08027;
+  height: 1920px;
   padding-bottom: 10%;
   padding-top: 15%;
   text-align: center;
+}
+
+.bg-amarelo {
+  background-color: #fce98d;
+  font-weight: 700;
 }
 
 .bt {
   margin: auto;
   max-width: 220px;
   width: 100%;
+}
+
+.centro {
+  margin-bottom: 10%;
+  margin-top: 15%;
 }
 
 .form-signin {
@@ -32,5 +44,9 @@
 
 .form-signin .form-floating:focus-within {
   z-index: 2;
+}
+
+.img-logo {
+  max-width: 325px;
 }
 

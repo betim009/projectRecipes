@@ -6,6 +6,7 @@ import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/recipes.css';
 
 function Header({ title, search }) {
   const history = useHistory();
@@ -13,10 +14,11 @@ function Header({ title, search }) {
 
   return (
     <header className="mb-2">
-      <nav className="navbar navbar-expand-md bg-primary">
+      <nav className="navbar navbar-expand-md bg-laranja">
         <div className="container-fluid justify-content-center">
-          <h1 className="h3 text-light m-1" data-testid="page-title">{ title }</h1>
+          <h1 className="h3 m-1" data-testid="page-title">{ title }</h1>
           <button
+            className="btn icn-branco"
             type="button"
             onClick={ () => history.push('/profile') }
           >
@@ -30,6 +32,7 @@ function Header({ title, search }) {
 && (
 
   <button
+    className="btn btn"
     type="button"
     onClick={ () => setSearchBar((prev) => !prev) }
   >
