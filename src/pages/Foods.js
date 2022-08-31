@@ -20,21 +20,30 @@ export default function Foods() {
       {
         recipes.length === 1 && history.push(`/foods/${recipes[0].idMeal}`)
       }
-      <div className="container">
-        <div className="row text-center justify-content-center">
+      <div className="container text-center mg-b">
+        <div className="row mt-3 justify-content-center">
           {
             recipes.length > 1 && recipes.slice(0, max).map((item, index) => (
-              <Link to={ `/foods/${item.idMeal}` } key={ `${index}-${item.strMeal}` }>
-                <div className="col-sm-6" data-testid={ `${index}-recipe-card` }>
+              <div
+                className="col-6 .col-sm-4"
+                data-testid={ `${index}-recipe-card` }
+                key={ `${index}-${item.strMeal}` }
+              >
+                <Link to={ `/foods/${item.idMeal}` }>
                   <img
-                    className="img-size"
+                    className="img-size mb-2"
                     src={ item.strMealThumb }
                     alt={ item.strMeal }
                     data-testid={ `${index}-card-img` }
                   />
-                  <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
-                </div>
-              </Link>
+                  <h3
+                    data-testid={ `${index}-card-name` }
+                    className="text-dark"
+                  >
+                    {item.strMeal}
+                  </h3>
+                </Link>
+              </div>
             ))
           }
         </div>

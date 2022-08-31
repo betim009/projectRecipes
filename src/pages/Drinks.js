@@ -19,24 +19,32 @@ export default function Drinks() {
       {
         recipes.length === 1 && <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
       }
-      <div className="container">
-        <div className="row">
+      <div className="container text-center mg-b">
+        <div className="row mt-3 justify-content-center">
           {
             recipes.length > 1 && recipes.slice(0, max).map((item, index) => (
-              <Link to={ `/drinks/${item.idDrink}` } key={ `${index}-${item.strDrink}` }>
-                <div
-                  className="container text-center"
-                  data-testid={ `${index}-recipe-card` }
+              <div
+                className="col-6 .col-sm-4"
+                data-testid={ `${index}-recipe-card` }
+                key={ `${index}-${item.strDrink}` }
+              >
+                <Link
+                  to={ `/drinks/${item.idDrink}` }
                 >
                   <img
-                    className="img-size"
+                    className="img-size mb-2"
                     src={ item.strDrinkThumb }
                     alt={ item.strDrink }
                     data-testid={ `${index}-card-img` }
                   />
-                  <h3 data-testid={ `${index}-card-name` }>{item.strDrink}</h3>
-                </div>
-              </Link>
+                  <h3
+                    data-testid={ `${index}-card-name` }
+                    className="text-dark"
+                  >
+                    {item.strDrink}
+                  </h3>
+                </Link>
+              </div>
             ))
           }
         </div>

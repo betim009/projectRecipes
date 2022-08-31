@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,8 +9,6 @@ import {
 import {
   foodFindName, foodsFilterByCategory, foodsFindCategory,
 } from '../services/ApiFood';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../style/image.css';
 import '../style/recipes.css';
 
@@ -104,18 +104,18 @@ export default function Recipes({ typePage }) {
       </button>
       <div className="">
         <div
-          className="row"
+          className="row mt-3 justify-content-center"
         >
           {
             recipes.drinks && recipes.drinks.slice(0, maxRecipes)
               .map((item, index) => (
-                <Link
-                  to={ `/drinks/${item.idDrink}` }
+                <div
+                  className="col-6 .col-sm-4"
+                  data-testid={ `${index}-recipe-card` }
                   key={ `${index}-${item.strDrink}` }
                 >
-                  <div
-                    className="col-6 .col-sm-4"
-                    data-testid={ `${index}-recipe-card` }
+                  <Link
+                    to={ `/drinks/${item.idDrink}` }
                   >
                     <img
                       className="img-size mb-2"
@@ -130,17 +130,20 @@ export default function Recipes({ typePage }) {
                       {item.strDrink}
 
                     </h3>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))
           }
           {
             recipes.meals && recipes.meals.slice(0, maxRecipes)
               .map((item, index) => (
-                <Link to={ `/foods/${item.idMeal}` } key={ `${index}-${item.strMeal}` }>
-                  <div
-                    className="col-6 .col-sm-4"
-                    data-testid={ `${index}-recipe-card` }
+                <div
+                  className="col-6 .col-sm-4"
+                  data-testid={ `${index}-recipe-card` }
+                  key={ `${index}-${item.strMeal}` }
+                >
+                  <Link
+                    to={ `/foods/${item.idMeal}` }
                   >
                     <img
                       className="img-size mb-2"
@@ -149,8 +152,8 @@ export default function Recipes({ typePage }) {
                       data-testid={ `${index}-card-img` }
                     />
                     <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))
           }
         </div>
