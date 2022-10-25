@@ -1,6 +1,6 @@
-### Projeto Recipes - Trybe ! :rocket:
+# Projeto Recipes - Trybe ! :rocket:
 
-# Sobre o projeto: 
+### Sobre o projeto: 
 - App de receitas, utilizando o que há de mais moderno dentro do ecossistema React: Hooks e Context API!
 
 Nele será possível: ver, buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas e drinks!
@@ -13,7 +13,7 @@ Você pode acessar um protótipo no link abaixo:
 
 https://www.figma.com/file/XoGZTOjZxNagmjSwdbwYuO/Recipes-App
 
-# Clone e instale pacotes para abrir o projeto
+### Clone e instale pacotes para abrir o projeto
 1. git clone git@github.com:betim009/projectRecipes.git
 2. npm i 
 3. npm start
